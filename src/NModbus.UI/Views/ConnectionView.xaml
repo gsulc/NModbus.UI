@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="NModbus.UI.Views.ConnectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NModbus.UI.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding ConnectCommand}" CommandParameter="{Binding Path=ConnectButtonText}" 
+                    Content="{Binding Path=ConnectButtonText}"></Button>
+            <ComboBox ItemsSource="{Binding Path=ModbusTypes}" 
+                  SelectedValue="{Binding Path=ModbusType}" />
+        </StackPanel>
+        <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" Margin="5" />
+    </StackPanel>
+</UserControl>

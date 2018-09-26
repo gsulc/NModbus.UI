@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModbus.UI", "NModbus.UI\NModbus.UI.csproj", "{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionModule", "ConnectionModule\ConnectionModule.csproj", "{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {05E362F1-3E5F-4D8E-9435-2ED4BD985B38}
+	EndGlobalSection
+EndGlobal

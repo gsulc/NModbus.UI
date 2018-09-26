@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="NModbus.UI.Views.SerialSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NModbus.UI.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0">Port Name:</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PortName}" />
+        <Label Grid.Row="1" Grid.Column="0">Baud Rate:</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=BaudRate}" />
+        <Label Grid.Row="2" Grid.Column="0">Parity:</Label>
+        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=ParityOptions}" 
+                  SelectedItem="{Binding Path=Parity}" />
+        <Label Grid.Row="3" Grid.Column="0">Stop Bits:</Label>
+        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=StopBitsOptions}" 
+                  SelectedItem="{Binding Path=StopBits}" />
+        <Label Grid.Row="4" Grid.Column="0">Handshake:</Label>
+        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=HandshakeOptions}" 
+                  SelectedItem="{Binding Path=Handshake}" />
+    </Grid>
+</UserControl>
