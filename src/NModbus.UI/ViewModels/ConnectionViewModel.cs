@@ -45,11 +45,11 @@ namespace NModbus.UI.ViewModels
             {
                 case ModbusType.Rtu:
                 case ModbusType.Ascii:
-                    return "SerialSettingsView";
+                    return nameof(SerialSettingsView);
                 case ModbusType.Tcp:
                 case ModbusType.Udp:
                 default:
-                    return "IpSettingsView";
+                    return nameof(IpSettingsView);
             }
         }
     }
