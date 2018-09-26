@@ -26,6 +26,7 @@ namespace NModbus.UI.ViewModels
             _container.RegisterTypeForNavigation<IpSettingsView>();
             _container.RegisterTypeForNavigation<SerialSettingsView>();
             ConnectCommand = new DelegateCommand<string>(ConnectionStateChangeRequest);
+            UpdateConnectButtonText();
         }
 
         public DelegateCommand<string> ConnectCommand { get; private set; }
@@ -46,7 +47,13 @@ namespace NModbus.UI.ViewModels
         }
 
         public bool Connected { get; set; } = false;
-        public string ConnectButtonText => Connected ? "Disconnect" : "Connect";
+
+        private string _connectedButtonText;
+        public string ConnectButtonText
+        {
+            get { return _connectedButtonText; }
+            set { _connectedButtonText = value; RaisePropertyChanged(); }
+        }
 
         private string GetSettingsViewName(ModbusType modbusType)
         {
@@ -62,9 +69,15 @@ namespace NModbus.UI.ViewModels
             }
         }
 
+        private void UpdateConnectButtonText()
+        {
+            ConnectButtonText = Connected ? "Disconnect" : "Connect";
+        }
+
         private void ConnectionStateChangeRequest(string request)
         {
             Connected = !Connected;
+            UpdateConnectButtonText();
         }
     }
     

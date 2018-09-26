@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModbus.UI", "NModbus.UI\NModbus.UI.csproj", "{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionModule", "ConnectionModule\ConnectionModule.csproj", "{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9550C8E-7E55-46BF-95C1-1265B70C0C0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AFA645C-AB0A-49E5-9CCF-393EFB6D2777}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Release|Any CPU.ActiveCfg = Release|Any CPU
