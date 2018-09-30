@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using NModbus.UI.Common.Core;
 using NModbus.UI.Views;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
@@ -13,14 +14,20 @@ namespace NModbus.UI.ViewModels
         IRegionManager _regionManager;
         IUnityContainer _container;
         ModbusType _modbusType;
+        IEventAggregator _eventAggregator;
 
-        public ConnectionViewModel(RegionManager regionManager, IUnityContainer container)
+        public ConnectionViewModel(
+            RegionManager regionManager, 
+            IUnityContainer container, 
+            IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
             _container = container;
             _regionManager.RegisterViewWithRegion("ConnectionStateRegion", typeof(ConnectionStateView));
             _container.RegisterTypeForNavigation<IpSettingsView>();
             _container.RegisterTypeForNavigation<SerialSettingsView>();
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ConnectionRequestEvent>().Subscribe(HandleConnectionRequest);
         }
 
         public IEnumerable<ModbusType> ModbusTypes => Enums.GetValues<ModbusType>();
@@ -51,6 +58,11 @@ namespace NModbus.UI.ViewModels
                 default:
                     return nameof(IpSettingsView);
             }
+        }
+
+        private void HandleConnectionRequest()
+        {
+            _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(ModbusType);
         }
     }
     

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModbus.UI", "NModbus.UI\NM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{7F5F197A-F4FE-4D22-A741-2264C0C3EBE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A8511B-87EA-4ED9-93FD-05DB2A2BC10E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5F197A-F4FE-4D22-A741-2264C0C3EBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5F197A-F4FE-4D22-A741-2264C0C3EBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5F197A-F4FE-4D22-A741-2264C0C3EBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5F197A-F4FE-4D22-A741-2264C0C3EBE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

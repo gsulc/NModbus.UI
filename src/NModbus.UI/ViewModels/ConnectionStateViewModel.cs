@@ -1,12 +1,18 @@
-﻿using Prism.Commands;
+﻿using NModbus.UI.Common.Core;
+using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 
 namespace NModbus.UI.ViewModels
 {
     public class ConnectionStateViewModel : BindableBase
     {
-        public ConnectionStateViewModel()
+        readonly IEventAggregator _eventAggregator;
+
+        public ConnectionStateViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            //_eventAggregator.GetEvent<ConnectionRequestEvent>().Publish()
             ConnectCommand = new DelegateCommand<string>(ConnectionStateChangeRequest);
             UpdateConnectButtonText();
         }
@@ -35,6 +41,7 @@ namespace NModbus.UI.ViewModels
         {
             Connected = !Connected;
             UpdateConnectButtonText();
+            _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish();
         }
     }
 }

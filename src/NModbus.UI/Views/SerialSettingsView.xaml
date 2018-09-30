@@ -14,6 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -23,14 +24,16 @@
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PortName}" />
         <Label Grid.Row="1" Grid.Column="0">Baud Rate:</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=BaudRate}" />
-        <Label Grid.Row="2" Grid.Column="0">Parity:</Label>
-        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=ParityOptions}" 
+        <Label Grid.Row="2" Grid.Column="0">Data Bits:</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=DataBits}" />
+        <Label Grid.Row="3" Grid.Column="0">Parity:</Label>
+        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=ParityOptions}" 
                   SelectedItem="{Binding Path=Parity}" />
-        <Label Grid.Row="3" Grid.Column="0">Stop Bits:</Label>
-        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=StopBitsOptions}" 
+        <Label Grid.Row="4" Grid.Column="0">Stop Bits:</Label>
+        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=StopBitsOptions}" 
                   SelectedItem="{Binding Path=StopBits}" />
-        <Label Grid.Row="4" Grid.Column="0">Handshake:</Label>
-        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=HandshakeOptions}" 
+        <Label Grid.Row="5" Grid.Column="0">Handshake:</Label>
+        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=HandshakeOptions}" 
                   SelectedItem="{Binding Path=Handshake}" />
     </Grid>
 </UserControl>

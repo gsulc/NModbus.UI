@@ -1,5 +1,7 @@
-﻿using NModbus.UI.Views;
-using Prism.Modularity;
+﻿using Microsoft.Practices.Unity;
+using NModbus.UI.Common.Core;
+using NModbus.UI.Service;
+using NModbus.UI.Views;
 using Prism.Unity;
 using System.Windows;
 
@@ -17,10 +19,14 @@ namespace NModbus.UI
             Application.Current.MainWindow.Show();
         }
 
-        //protected override void ConfigureModuleCatalog()
-        //{
-        //    var catalog = (ModuleCatalog)ModuleCatalog;
-        //    catalog.AddModule(typeof(ConnectionModule));
-        //}
+        protected override void ConfigureContainer()
+        {
+            base.ConfigureContainer();
+
+            Container.RegisterType<ModbusMasterManager>(new ContainerControlledLifetimeManager());
+            Container.Resolve<ModbusMasterManager>();
+            //Container.RegisterType<IApplicationCommands, ApplicationCommands>(
+            //    new ContainerControlledLifetimeManager());
+        }
     }
 }

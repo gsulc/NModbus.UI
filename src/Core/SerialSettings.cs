@@ -2,7 +2,7 @@
 
 namespace NModbus.UI.Common.Core
 {
-    public class SerialSettings
+    public class SerialSettings : ConnectionSettings
     {
         public string PortName { get; set; }
         public int BaudRate { get; set; }
