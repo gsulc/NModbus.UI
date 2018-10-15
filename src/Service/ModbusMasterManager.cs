@@ -18,11 +18,18 @@ namespace NModbus.UI.Service
             _updClients = new Dictionary<string, UdpClient>();
         private readonly IDictionary<string, SerialPort>
             _serialPorts = new Dictionary<string, SerialPort>();
+        private readonly IEventAggregator _ea;
 
         public ModbusMasterManager(IEventAggregator ea)
         {
+            _ea = ea;
             ea.GetEvent<IpConnectionRequestEvent>().Subscribe(NewIpConnection);
             ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
+
+            ea.GetEvent<ReadDiscreteInputEvent>().Subscribe(ReadDiscreteInputs);
+            ea.GetEvent<ReadCoilRequestEvent>().Subscribe(ReadCoils);
+            ea.GetEvent<ReadInputRegisterEvent>().Subscribe(ReadInputRegisters);
+            ea.GetEvent<ReadHoldingRegisterEvent>().Subscribe(ReadHoldingRegisters);
         }
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
@@ -93,6 +100,34 @@ namespace NModbus.UI.Service
                 default:
                     throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
             }
+        }
+
+        private void ReadDiscreteInputs(ModbusMultipleAddress address)
+        {
+            bool[] result = _masters[address.MasterName].ReadInputs(address);
+            _ea.GetEvent<DiscreteInputEvent>().Publish(
+                new DiscreteInputData() { Address = address, Values = result });
+        }
+
+        private void ReadCoils(ModbusMultipleAddress address)
+        {
+            bool[] result = _masters[address.MasterName].ReadCoils(address);
+            _ea.GetEvent<CoilReadEvent>().Publish(
+                new CoilData() { Address = address, Values = result });
+        }
+
+        private void ReadInputRegisters(ModbusMultipleAddress address)
+        {
+            UInt16[] result = _masters[address.MasterName].ReadInputRegisters(address);
+            _ea.GetEvent<InputRegisterEvent>().Publish(
+                new InputRegisterData() { Address = address, Values = result });
+        }
+
+        private void ReadHoldingRegisters(ModbusMultipleAddress address)
+        {
+            UInt16[] result = _masters[address.MasterName].ReadHoldingRegisters(address);
+            _ea.GetEvent<HoldingRegisterEvent>().Publish(
+                new HoldingRegisterData() { Address = address, Values = result });
         }
     }
 }

@@ -13,6 +13,8 @@
             <ComboBox ItemsSource="{Binding Path=ModbusTypes}" 
                   SelectedValue="{Binding Path=ModbusType}" />
         </StackPanel>
-        <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" Margin="5" />
+        <Expander Header="Connection Settings" IsExpanded="True">
+            <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" Margin="5" />
+        </Expander>
     </StackPanel>
 </UserControl>
