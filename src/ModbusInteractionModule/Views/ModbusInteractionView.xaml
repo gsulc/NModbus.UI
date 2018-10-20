@@ -3,11 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:NModbus.UI.InteractionModule.Views"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
-    <DataGrid ItemsSource="{Binding LineItems}">
-            
+    <StackPanel>
+    <DataGrid Name="ObjectGrid" 
+              ItemsSource="{Binding LineItems}" 
+              SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+              Height="150"
+              ScrollViewer.CanContentScroll="True">
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction 
+                            Command="{Binding RemoveSelectedCommand}"
+                            CommandParameter="{Binding SelectedItems, ElementName=ObjectGrid}" />
+                        <!-- CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=PlacementTarget.SelectedItems}" /-->
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <MenuItem Header="Remove Selected" ></MenuItem>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
     </DataGrid>
+        <Grid>
+        <Button Command="{Binding RemoveSelectedCommand}"
+                CommandParameter="{Binding SelectedItems, ElementName=ObjectGrid}"
+                Content="Remove Selected Items" />
+        </Grid>
+    </StackPanel>
 </UserControl>
