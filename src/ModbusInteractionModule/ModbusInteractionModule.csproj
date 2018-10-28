@@ -74,6 +74,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="LineItem.cs" />
     <Compile Include="ModbusInteractionModule.cs" />
     <Compile Include="ViewModels\ModbusInteractionViewModel.cs" />

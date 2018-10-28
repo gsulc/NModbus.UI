@@ -8,30 +8,30 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
-    <StackPanel>
-    <DataGrid Name="ObjectGrid" 
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Label>Slave ID:</Label>
+            <TextBox Width="20" VerticalAlignment="Center" Text="{Binding SlaveId}" />
+            <Button Command="{Binding ReadCommand}">Read</Button>
+        </StackPanel>
+        <DataGrid Name="ObjectGrid" 
               ItemsSource="{Binding LineItems}" 
               SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
               Height="150"
               ScrollViewer.CanContentScroll="True">
-        <DataGrid.ContextMenu>
-            <ContextMenu>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction 
-                            Command="{Binding RemoveSelectedCommand}"
-                            CommandParameter="{Binding SelectedItems, ElementName=ObjectGrid}" />
-                        <!-- CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=PlacementTarget.SelectedItems}" /-->
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem Header="Remove Selected" ></MenuItem>
-            </ContextMenu>
-        </DataGrid.ContextMenu>
-    </DataGrid>
-        <Grid>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Remove Selected" 
+                              Command="{Binding RemoveSelectedCommand}" 
+                              CommandParameter="{Binding SelectedItems, ElementName=ObjectGrid}"/>
+                    <MenuItem Header="Read" Command="{Binding ReadSingleCommand}" 
+                              CommandParameter="{Binding SelectedItem, ElementName=ObjectGrid}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
         <Button Command="{Binding RemoveSelectedCommand}"
                 CommandParameter="{Binding SelectedItems, ElementName=ObjectGrid}"
-                Content="Remove Selected Items" />
-        </Grid>
+                Content="Remove Selected Items" 
+                Width="150" HorizontalAlignment="Left" />
     </StackPanel>
 </UserControl>

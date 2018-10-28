@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusInteractionModule", "ModbusInteractionModule\ModbusInteractionModule.csproj", "{EB1C66AD-A33A-456E-A70C-888AC616D101}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6F269F69-D4F6-476F-B250-A921735B3735}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EB1C66AD-A33A-456E-A70C-888AC616D101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1C66AD-A33A-456E-A70C-888AC616D101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1C66AD-A33A-456E-A70C-888AC616D101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F269F69-D4F6-476F-B250-A921735B3735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F269F69-D4F6-476F-B250-A921735B3735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F269F69-D4F6-476F-B250-A921735B3735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F269F69-D4F6-476F-B250-A921735B3735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
