@@ -56,7 +56,35 @@ namespace NModbus.UI.InteractionModule.ViewModels
 
         private void Read()
         {
+            ReadCoils();
+            ReadInputs();
+            ReadHoldingRegisters();
+            ReadInputRegisters();
+        }
 
+        private void ReadCoils() => ReadObjects(ObjectType.Coil, _master.ReadCoils);
+
+        private void ReadInputs() => ReadObjects(ObjectType.DiscreteInput, _master.ReadInputs);
+
+        private void ReadHoldingRegisters() => 
+            ReadObjects(ObjectType.HoldingRegister, _master.ReadHoldingRegisters);
+
+        private void ReadInputRegisters() =>
+            ReadObjects(ObjectType.InputRegister, _master.ReadInputRegisters);
+
+        private delegate IEnumerable<KeyValuePair<ushort, T>> ReadObjectsDelegate<T>(
+            byte slaveId, IEnumerable<ushort> addresses);
+
+        private void ReadObjects<T>(ObjectType type, ReadObjectsDelegate<T> readObjects)
+        {
+            var items = LineItems.Where(i => i.ObjectType == type);
+            var addresses = items.Select(i => i.Address);
+            var values = readObjects(SlaveId, addresses);
+            foreach (var value in values)
+            {
+                var item = items.Where(i => i.Address == value.Key).First();
+                item.ValueAsString = value.Value.ToString();
+            }
         }
 
         private void RemoveSelectedItems(IList items)
