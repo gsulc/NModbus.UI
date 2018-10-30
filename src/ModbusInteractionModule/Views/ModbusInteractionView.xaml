@@ -10,14 +10,15 @@
              mc:Ignorable="d" IsEnabled="{Binding IsEnabled}">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Label>Slave ID:</Label>
-            <TextBox Width="20" VerticalAlignment="Center" Text="{Binding SlaveId}" />
-            <Button Command="{Binding ReadCommand}">Read</Button>
+            <Label Margin="5">Slave ID:</Label>
+            <TextBox Width="20" TextAlignment="Center" VerticalAlignment="Center" Margin="5"
+                     Text="{Binding SlaveId}" />
+            <Button Command="{Binding ReadCommand}" Margin="5">Read</Button>
         </StackPanel>
         <DataGrid Name="ObjectGrid" 
               ItemsSource="{Binding LineItems}" 
               SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
-              Height="150"
+              Height="150" Margin="5"
               ScrollViewer.CanContentScroll="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>

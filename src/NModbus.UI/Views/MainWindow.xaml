@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="NModbus Master" Height="450" Width="800">
     <StackPanel Orientation="Vertical" Margin="10">
-        <ContentControl prism:RegionManager.RegionName="ConnectionRegion" />
-        <ContentControl prism:RegionManager.RegionName="ModbusInteractionRegion" />
+        <ContentControl prism:RegionManager.RegionName="ConnectionRegion" Margin="5" />
+        <ContentControl prism:RegionManager.RegionName="ModbusInteractionRegion" Margin="5" />
     </StackPanel>
 </Window>
