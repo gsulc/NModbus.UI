@@ -1,4 +1,5 @@
-﻿using NModbus.UI.Common.Core;
+﻿#if DEBUG
+using NModbus.UI.Common.Core;
 using Prism.Events;
 
 namespace NModbus.UI.Service
@@ -21,3 +22,4 @@ namespace NModbus.UI.Service
         }
     }
 }
+#endif
