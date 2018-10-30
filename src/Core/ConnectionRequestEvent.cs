@@ -12,7 +12,11 @@ namespace NModbus.UI.Common.Core
 
     public class SerialConnectionRequestEvent : PubSubEvent<SerialSettings> { }
 
-   // public class NewModbusMasterEvent : PubSubEvent<string> { }
+#if DEBUG
+    public class RandomConnectionRequestEvent : PubSubEvent { }
+#endif
+
+    // public class NewModbusMasterEvent : PubSubEvent<string> { }
 
     public class ReadCoilRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
     public class ReadDiscreteInputEvent : PubSubEvent<ModbusMultipleAddress> { }

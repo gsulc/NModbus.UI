@@ -1,4 +1,5 @@
 ﻿using NModbus.UI.Common.Core;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,17 @@ using System.Threading.Tasks;
 
 namespace NModbus.UI.InteractionModule
 {
-    public class LineItem
+    public class LineItem : BindableBase
     {
+        private string _valueAsString;
+
         public ObjectType ObjectType { get; set; }
         public ushort Address { get; set; }
-        public string ValueAsString { get; set; }
+        public string ValueAsString
+        {
+            get { return _valueAsString; }
+            set { SetProperty(ref _valueAsString, value); }
+        }
     }
 
     public abstract class LineItem<T>

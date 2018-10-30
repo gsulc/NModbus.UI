@@ -56,6 +56,7 @@ namespace NModbus.UI.Service
                     var tcpMaster = factory.CreateMaster(tcpClient);
                     _masters.Add(ipSettings.Hostname, tcpMaster);
                     _tcpClients.Add(ipSettings.Hostname, tcpClient);
+
                     break;
                 case ModbusType.Udp:
                     var udpClient = new UdpClient();

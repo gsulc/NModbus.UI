@@ -78,6 +78,8 @@ namespace NModbus.UI.InteractionModule.ViewModels
         private void ReadObjects<T>(ObjectType type, ReadObjectsDelegate<T> readObjects)
         {
             var items = LineItems.Where(i => i.ObjectType == type);
+            if (!items.Any())
+                return;
             var addresses = items.Select(i => i.Address);
             var values = readObjects(SlaveId, addresses);
             foreach (var value in values)

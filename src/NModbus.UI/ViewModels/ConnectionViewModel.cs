@@ -5,6 +5,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
+using System;
 using System.Collections.Generic;
 
 namespace NModbus.UI.ViewModels
@@ -26,6 +27,9 @@ namespace NModbus.UI.ViewModels
             _regionManager.RegisterViewWithRegion("ConnectionStateRegion", typeof(ConnectionStateView));
             _container.RegisterTypeForNavigation<IpSettingsView>();
             _container.RegisterTypeForNavigation<SerialSettingsView>();
+#if DEBUG
+            _container.RegisterTypeForNavigation<RandomSettingsView>();
+#endif
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionRequestEvent>().Subscribe(HandleConnectionRequest);
         }
@@ -55,8 +59,13 @@ namespace NModbus.UI.ViewModels
                     return nameof(SerialSettingsView);
                 case ModbusType.Tcp:
                 case ModbusType.Udp:
-                default:
                     return nameof(IpSettingsView);
+#if DEBUG
+                case ModbusType.Random:
+                    return nameof(RandomSettingsView);
+#endif
+                default:
+                    throw new ArgumentException("modbusType");
             }
         }
 

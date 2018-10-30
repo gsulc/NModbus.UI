@@ -38,8 +38,13 @@ namespace NModbus.UI.InteractionModule
                 ushort startAddress = bucket.Item1;
                 ushort numberOfPoints = bucket.Item2;
                 bool[] values = master.ReadCoils(slaveAddress, startAddress, numberOfPoints);
+                ushort i = 0;
                 foreach (var value in values)
-                    yield return new KeyValuePair<ushort, bool>(startAddress, value);
+                {
+                    ushort address = (ushort)(startAddress + i);
+                    ++i;
+                    yield return new KeyValuePair<ushort, bool>(address, value);
+                }
             }
         }
 
@@ -54,8 +59,13 @@ namespace NModbus.UI.InteractionModule
                 ushort startAddress = bucket.Item1;
                 ushort numberOfPoints = bucket.Item2;
                 bool[] values = master.ReadInputs(slaveAddress, startAddress, numberOfPoints);
+                ushort i = 0;
                 foreach (var value in values)
-                    yield return new KeyValuePair<ushort, bool>(startAddress, value);
+                {
+                    ushort address = (ushort)(startAddress + i);
+                    ++i;
+                    yield return new KeyValuePair<ushort, bool>(address, value);
+                }
             }
         }
 
@@ -70,8 +80,13 @@ namespace NModbus.UI.InteractionModule
                 ushort startAddress = bucket.Item1;
                 ushort numberOfPoints = bucket.Item2;
                 ushort[] values = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
+                ushort i = 0;
                 foreach (var value in values)
-                    yield return new KeyValuePair<ushort, ushort>(startAddress, value);
+                {
+                    ushort address = (ushort)(startAddress + i);
+                    ++i;
+                    yield return new KeyValuePair<ushort, ushort>(address, value);
+                }
             }
         }
 
@@ -86,8 +101,13 @@ namespace NModbus.UI.InteractionModule
                 ushort startAddress = bucket.Item1;
                 ushort numberOfPoints = bucket.Item2;
                 ushort[] values = master.ReadInputRegisters(slaveAddress, startAddress, numberOfPoints);
+                ushort i = 0;
                 foreach (var value in values)
-                    yield return new KeyValuePair<ushort, ushort>(startAddress, value);
+                {
+                    ushort address = (ushort)(startAddress + i);
+                    ++i;
+                    yield return new KeyValuePair<ushort, ushort>(address, value);
+                }
             }
         }
 

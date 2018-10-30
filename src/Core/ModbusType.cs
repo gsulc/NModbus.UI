@@ -5,6 +5,9 @@
         Tcp,
         Udp,
         Rtu,
-        Ascii
+        Ascii,
+#if DEBUG
+        Random,
+#endif
     }
 }
