@@ -11,7 +11,8 @@
         <StackPanel Orientation="Horizontal">
             <ContentControl prism:RegionManager.RegionName="ConnectionStateRegion" Margin="5" />
             <ComboBox ItemsSource="{Binding Path=ModbusTypes}" 
-                  SelectedValue="{Binding Path=ModbusType}" />
+                      SelectedValue="{Binding Path=ModbusType}" 
+                      Margin="5" VerticalAlignment="Center" IsEnabled="{Binding IsEnabled}" />
         </StackPanel>
         <Expander Header="Connection Settings" IsExpanded="True">
             <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" Margin="5" />

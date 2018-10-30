@@ -32,9 +32,17 @@ namespace NModbus.UI.ViewModels
 #endif
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionRequestEvent>().Subscribe(HandleConnectionRequest);
+            _eventAggregator.GetEvent<DisconnectRequestEvent>().Subscribe(HandleDisconnect);
         }
 
         public IEnumerable<ModbusType> ModbusTypes => Enums.GetValues<ModbusType>();
+
+        private bool _isEnabled = true;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { SetProperty(ref _isEnabled, value); }
+        }
 
         public ModbusType ModbusType
         {
@@ -72,6 +80,12 @@ namespace NModbus.UI.ViewModels
         private void HandleConnectionRequest()
         {
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(ModbusType);
+            IsEnabled = false;
+        }
+
+        private void HandleDisconnect()
+        {
+            IsEnabled = true;
         }
     }
     
