@@ -12,36 +12,37 @@ namespace NModbus.UI.ViewModels
         public ConnectionStateViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            //_eventAggregator.GetEvent<ConnectionRequestEvent>().Publish()
             ConnectCommand = new DelegateCommand<string>(ConnectionStateChangeRequest);
-            UpdateConnectButtonText();
         }
 
         public DelegateCommand<string> ConnectCommand { get; private set; }
 
-        public bool Connected { get; set; } = false;
-
-        private string _connectedButtonText;
-        public string ConnectButtonText
+        bool _connected = false;
+        public bool Connected
         {
-            get { return _connectedButtonText; }
+            get { return _connected; }
             set
             {
-                _connectedButtonText = value;
-                RaisePropertyChanged();
+                _connected = value;
+                ConnectButtonText = Connected ? "Disconnect" : "Connect";
             }
         }
 
-        private void UpdateConnectButtonText()
+        private string _connectedButtonText = "Connect";
+        public string ConnectButtonText
         {
-            ConnectButtonText = Connected ? "Disconnect" : "Connect";
+            get { return _connectedButtonText; }
+            set { SetProperty(ref _connectedButtonText, value); }
         }
 
         private void ConnectionStateChangeRequest(string request)
         {
-            Connected = !Connected;
-            UpdateConnectButtonText();
-            _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish();
+            bool connecting = !Connected;
+            if (connecting)
+                _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish();
+            else
+                _eventAggregator.GetEvent<DisconnectRequestEvent>().Publish();
+            Connected = connecting;
         }
     }
 }

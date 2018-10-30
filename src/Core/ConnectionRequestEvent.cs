@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace NModbus.UI.Common.Core
 {
+    public class DisconnectRequestEvent : PubSubEvent { }
+
     public class ConnectionRequestEvent : PubSubEvent { }
 
     public class ConnectionTypeRequestEvent : PubSubEvent<ModbusType> { }

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:NModbus.UI.InteractionModule.Views"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d">
+             mc:Ignorable="d" IsEnabled="{Binding IsEnabled}">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <Label>Slave ID:</Label>

@@ -20,14 +20,22 @@ namespace NModbus.UI.InteractionModule.ViewModels
         IModbusMaster _master;
         byte _slaveId;
         ObservableCollection<LineItem> _lineItems = new ObservableCollection<LineItem>();
+        bool _isEnabled = false;
 
         public ModbusInteractionViewModel(IEventAggregator ea)
         {
             _eventAggregator = ea;
             ea.GetEvent<NewModbusMasterEvent>().Subscribe(NewModbusMaster);
+            ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
             RemoveSelectedCommand = new DelegateCommand<IList>(RemoveSelectedItems);
             ReadSingleCommand = new DelegateCommand<LineItem>(ReadSingle);
             ReadCommand = new DelegateCommand(Read);
+        }
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            private set => SetProperty(ref _isEnabled, value);
         }
 
         public byte SlaveId
@@ -106,6 +114,14 @@ namespace NModbus.UI.InteractionModule.ViewModels
         private void NewModbusMaster(IModbusMaster master)
         {
             _master = master;
+            IsEnabled = true;
+        }
+
+        private void Disconnect()
+        {
+            _master.Dispose();
+            _master = null;
+            IsEnabled = false;
         }
     }
 }
