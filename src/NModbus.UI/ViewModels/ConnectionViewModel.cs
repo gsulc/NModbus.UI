@@ -14,7 +14,6 @@ namespace NModbus.UI.ViewModels
     public class ConnectionViewModel : BindableBase
     {
         IRegionManager _regionManager;
-        IUnityContainer _container;
         ModbusType _modbusType;
         IEventAggregator _eventAggregator;
 
@@ -24,13 +23,8 @@ namespace NModbus.UI.ViewModels
             IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
-            _container = container;
             _eventAggregator = eventAggregator;
-            _container.RegisterTypeForNavigation<IpSettingsView>();
-            _container.RegisterTypeForNavigation<SerialSettingsView>();
-#if DEBUG
-            _container.RegisterTypeForNavigation<RandomSettingsView>();
-#endif
+            RegisterNavigationTypes(container);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
         }
 
@@ -63,6 +57,15 @@ namespace NModbus.UI.ViewModels
                 _modbusType = value;
                 NavigateToRegion();
             }
+        }
+
+        private void RegisterNavigationTypes(IUnityContainer container)
+        {
+            container.RegisterTypeForNavigation<IpSettingsView>();
+            container.RegisterTypeForNavigation<SerialSettingsView>();
+#if DEBUG
+            container.RegisterTypeForNavigation<RandomSettingsView>();
+#endif
         }
 
         private void NavigateToRegion()
