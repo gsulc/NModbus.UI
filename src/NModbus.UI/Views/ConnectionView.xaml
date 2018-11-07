@@ -9,19 +9,28 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <local:ConnectionButtonTextConverter x:Key="ConnectionButtonText" />
+        <Style TargetType="Separator">
+            <Setter Property="Margin" Value="0,10,0,10" />
+        </Style>
     </UserControl.Resources>
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <!--ContentControl prism:RegionManager.RegionName="ConnectionStateRegion" Margin="5" /-->
-            <Button Content="{Binding IsConnected, Converter={StaticResource ConnectionButtonText}}" 
-                    Command="{Binding ConnectionCommand}" />
-            <ComboBox ItemsSource="{Binding Path=ModbusTypes}" 
+    <StackPanel Orientation="Vertical">
+        <Button Content="{Binding IsConnected, Converter={StaticResource ConnectionButtonText}}" 
+                Command="{Binding ConnectionCommand}" />
+        <Separator />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" HorizontalAlignment="Right">Modbus Type</Label>
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding Path=ModbusTypes}" 
                       SelectedValue="{Binding Path=SelectedModbusType}" 
-                      VerticalContentAlignment="Center" IsEnabled="{Binding IsEnabled}" />
-        </StackPanel>
-        <Expander Header="Connection Settings" IsExpanded="True">
-            <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" 
-                            IsEnabled="{Binding IsEnabled}" />
-        </Expander>
+                      VerticalContentAlignment="Center" 
+                      IsEnabled="{Binding IsEnabled}" />
+        </Grid>
+        <Separator />
+        <ContentControl prism:RegionManager.RegionName="ConnectionSettingsRegion" 
+                        IsEnabled="{Binding IsEnabled}" />
     </StackPanel>
 </UserControl>

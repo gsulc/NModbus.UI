@@ -8,8 +8,13 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="NModbus Master" Height="450" Width="800">
-    <StackPanel Orientation="Vertical" Margin="10">
-        <ContentControl prism:RegionManager.RegionName="ConnectionRegion" Margin="5" />
-        <ContentControl prism:RegionManager.RegionName="ModbusInteractionRegion" Margin="5" />
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <ContentControl Grid.Column="0" Margin="5" prism:RegionManager.RegionName="ConnectionRegion" />
+        <ContentControl Grid.Column="1" Margin="5" prism:RegionManager.RegionName="ModbusInteractionRegion" />
+    </Grid>
 </Window>

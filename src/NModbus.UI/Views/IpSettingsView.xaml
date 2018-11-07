@@ -6,20 +6,21 @@
              xmlns:local="clr-namespace:NModbus.UI.Views"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" 
+             Width="162">
     <Grid HorizontalAlignment="Left">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="92" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Hostname:</Label>
-        <TextBox Grid.Row="0" Grid.Column="1">127.0.0.1</TextBox>
-        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Port:</Label>
-        <TextBox Grid.Row="1" Grid.Column="1">502</TextBox>
+        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Host Name</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding HostName}" />
+        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Port</Label>
+        <TextBox Grid.Row="1" Grid.Column="1"  VerticalContentAlignment="Center" Text="{Binding Port}" />
     </Grid>
 </UserControl>

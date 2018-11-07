@@ -17,8 +17,6 @@ namespace NModbus.UI.ViewModels
         public string Hostname { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 502;
 
-        //public DelegateCommand ConnectionRequestComand { get; private set; }
-
         private void HandleConnectionRequest(ModbusType connectionType)
         {
             var ipSettings = new IpSettings()
