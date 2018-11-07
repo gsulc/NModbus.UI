@@ -10,7 +10,7 @@
         Title="NModbus Master" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="255" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         

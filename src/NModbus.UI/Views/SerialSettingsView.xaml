@@ -6,16 +6,38 @@
              xmlns:local="clr-namespace:NModbus.UI.Views"
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="245">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+    </UserControl.Resources>
     <Grid HorizontalAlignment="Left">
-        <Grid.Resources>
-            <Style TargetType="TextBox">
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>
-        </Grid.Resources>
+        <Label Grid.Row="0" Grid.Column="0">Port Name</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PortName}" />
+        
+        <Label Grid.Row="1" Grid.Column="0">Baud Rate</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=BaudRate}" />
+        
+        <Label Grid.Row="2" Grid.Column="0">Data Bits</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=DataBits}" />
+        
+        <Label Grid.Row="3" Grid.Column="0">Parity</Label>
+        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=ParityOptions}" 
+                  SelectedItem="{Binding Path=Parity}" />
+        
+        <Label Grid.Row="4" Grid.Column="0">Stop Bits</Label>
+        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=StopBitsOptions}" 
+                  SelectedItem="{Binding Path=StopBits}" />
+        
+        <Label Grid.Row="5" Grid.Column="0">Handshake</Label>
+        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=HandshakeOptions}" 
+                  SelectedItem="{Binding Path=Handshake}" />
+        
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -25,23 +47,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70" />
-            <ColumnDefinition Width="170" />
+            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="160" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0">Port Name</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PortName}" />
-        <Label Grid.Row="1" Grid.Column="0">Baud Rate</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=BaudRate}" />
-        <Label Grid.Row="2" Grid.Column="0">Data Bits</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=DataBits}" />
-        <Label Grid.Row="3" Grid.Column="0">Parity</Label>
-        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=ParityOptions}" 
-                  SelectedItem="{Binding Path=Parity}" />
-        <Label Grid.Row="4" Grid.Column="0">Stop Bits</Label>
-        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=StopBitsOptions}" 
-                  SelectedItem="{Binding Path=StopBits}" />
-        <Label Grid.Row="5" Grid.Column="0">Handshake</Label>
-        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=HandshakeOptions}" 
-                  SelectedItem="{Binding Path=Handshake}" />
     </Grid>
 </UserControl>

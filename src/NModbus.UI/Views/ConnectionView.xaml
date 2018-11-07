@@ -17,10 +17,10 @@
         <Button Content="{Binding IsConnected, Converter={StaticResource ConnectionButtonText}}" 
                 Command="{Binding ConnectionCommand}" />
         <Separator />
-        <Grid>
+        <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="85" />
+                <ColumnDefinition Width="160" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Right">Modbus Type</Label>
             <ComboBox Grid.Column="1" 
