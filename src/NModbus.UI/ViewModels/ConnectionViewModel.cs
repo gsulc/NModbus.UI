@@ -31,8 +31,6 @@ namespace NModbus.UI.ViewModels
 #if DEBUG
             _container.RegisterTypeForNavigation<RandomSettingsView>();
 #endif
-            _eventAggregator.GetEvent<ConnectionRequestEvent>().Subscribe(HandleConnectionRequest);
-            _eventAggregator.GetEvent<DisconnectRequestEvent>().Subscribe(HandleDisconnect);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
         }
 
@@ -105,17 +103,6 @@ namespace NModbus.UI.ViewModels
             }
             IsConnected = connecting;
             IsEnabled = !IsEnabled;
-        }
-
-        private void HandleConnectionRequest()
-        {
-            _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(SelectedModbusType);
-            IsEnabled = false;
-        }
-
-        private void HandleDisconnect()
-        {
-            IsEnabled = true;
         }
     }
     
