@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using NModbus.UI.Common.Core;
 using NModbus.UI.Views;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -24,18 +25,27 @@ namespace NModbus.UI.ViewModels
         {
             _regionManager = regionManager;
             _container = container;
-            _regionManager.RegisterViewWithRegion("ConnectionStateRegion", typeof(ConnectionStateView));
+            _eventAggregator = eventAggregator;
             _container.RegisterTypeForNavigation<IpSettingsView>();
             _container.RegisterTypeForNavigation<SerialSettingsView>();
 #if DEBUG
             _container.RegisterTypeForNavigation<RandomSettingsView>();
 #endif
-            _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionRequestEvent>().Subscribe(HandleConnectionRequest);
             _eventAggregator.GetEvent<DisconnectRequestEvent>().Subscribe(HandleDisconnect);
+            ConnectionCommand = new DelegateCommand(ConnectionStateChange);
         }
 
+        public DelegateCommand ConnectionCommand { get; private set; }
+
         public IEnumerable<ModbusType> ModbusTypes => Enums.GetValues<ModbusType>();
+
+        private bool _isConnected;
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            set { SetProperty(ref _isConnected, value); }
+        }
 
         private bool _isEnabled = true;
         public bool IsEnabled
@@ -44,7 +54,7 @@ namespace NModbus.UI.ViewModels
             set { SetProperty(ref _isEnabled, value); }
         }
 
-        public ModbusType ModbusType
+        public ModbusType SelectedModbusType
         {
             get
             {
@@ -53,9 +63,14 @@ namespace NModbus.UI.ViewModels
             set
             {
                 _modbusType = value;
-                string viewName = GetSettingsViewName(_modbusType);
-                _regionManager.RequestNavigate("ConnectionSettingsRegion", viewName);
+                NavigateToRegion();
             }
+        }
+
+        private void NavigateToRegion()
+        {
+            string viewName = GetSettingsViewName(_modbusType);
+            _regionManager.RequestNavigate("ConnectionSettingsRegion", viewName);
         }
 
         private string GetSettingsViewName(ModbusType modbusType)
@@ -77,9 +92,24 @@ namespace NModbus.UI.ViewModels
             }
         }
 
+        private void ConnectionStateChange()
+        {
+            bool connecting = !IsConnected;
+            if (connecting)
+            {
+                _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(SelectedModbusType);
+            }
+            else // disconnecting
+            {
+
+            }
+            IsConnected = connecting;
+            IsEnabled = !IsEnabled;
+        }
+
         private void HandleConnectionRequest()
         {
-            _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(ModbusType);
+            _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(SelectedModbusType);
             IsEnabled = false;
         }
 
