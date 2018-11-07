@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NModbus.UI.Service
 {
-    public class RandomModbusMaster : IModbusMaster
+    public class RandomModbusMaster : IModbusMaster, IDisposable
     {
         private readonly Random _random = new Random();
 
