@@ -8,17 +8,24 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" IsEnabled="{Binding IsEnabled}">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <Label>Slave ID:</Label>
-            <TextBox Width="20" TextAlignment="Center" VerticalAlignment="Center"
-                     Text="{Binding SlaveId}" />
-            <Button Command="{Binding ReadCommand}">Read</Button>
+            <TextBox Width="30" Text="255" />
+            <Separator Margin="10" />
+            <Button Command="{Binding ReadCommand}" Width="40">Read</Button>
         </StackPanel>
+        <Separator Margin="0,5,0,5" />
         <DataGrid Name="ObjectGrid" 
               ItemsSource="{Binding LineItems}" 
               SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
-              Height="150"
+              Height="300"
               ScrollViewer.CanContentScroll="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>

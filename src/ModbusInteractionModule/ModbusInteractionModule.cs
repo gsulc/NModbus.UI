@@ -2,7 +2,6 @@
 using NModbus.UI.InteractionModule.Views;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity;
 
 namespace NModbus.UI.InteractionModule
 {
@@ -19,8 +18,8 @@ namespace NModbus.UI.InteractionModule
 
         public void Initialize()
         {
-            _regionManager.RegisterViewWithRegion("ModbusInteractionRegion", typeof(ModbusInteractionView));
-            //_container.RegisterTypeForNavigation<ModbusInteractionView>();
+            _regionManager.RegisterViewWithRegion(
+                "ModbusInteractionRegion", typeof(ModbusInteractionView));
         }
     }
 }

@@ -97,13 +97,9 @@ namespace NModbus.UI.ViewModels
         {
             bool connecting = !IsConnected;
             if (connecting)
-            {
                 _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(SelectedModbusType);
-            }
             else // disconnecting
-            {
-
-            }
+                _eventAggregator.GetEvent<DisconnectRequestEvent>().Publish();
             IsConnected = connecting;
             IsEnabled = !IsEnabled;
         }

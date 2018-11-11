@@ -9,6 +9,5 @@
              mc:Ignorable="d" >
     <Grid>
             <!-- Intentionally empty. -->
-        <Label></Label>
     </Grid>
 </UserControl>
