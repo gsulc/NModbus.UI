@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Host Name</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding HostName}" />
+        <TextBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding Hostname}" />
         <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Port</Label>
         <TextBox Grid.Row="1" Grid.Column="1"  VerticalContentAlignment="Center" Text="{Binding Port}" />
     </Grid>
