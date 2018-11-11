@@ -1,12 +1,13 @@
 ﻿using NModbus.UI.Common.Core;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using System.Collections.Generic;
 using System.IO.Ports;
 
 namespace NModbus.UI.ViewModels
 {
-    public class SerialSettingsViewModel : BindableBase
+    public class SerialSettingsViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         IEventAggregator _eventAggregator;
         public SerialSettingsViewModel(IEventAggregator eventAggregator)
@@ -27,8 +28,28 @@ namespace NModbus.UI.ViewModels
         public StopBits StopBits { get; set; } = StopBits.One;
         public Handshake Handshake { get; set; } = Handshake.None;
 
+        public bool KeepAlive => false;
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            
+        }
+
         private void HandleConnectionRequest(ModbusType modbusType)
         {
+            if (!(modbusType == ModbusType.Rtu || modbusType == ModbusType.Ascii))
+                return;
+
             var serialSettings = new SerialSettings()
             {
                 ModbusType = modbusType,

@@ -14,22 +14,22 @@ namespace NModbus.UI.Service
             _masters = new Dictionary<string, IModbusMaster>();
         private readonly IDictionary<string, TcpClient> 
             _tcpClients = new Dictionary<string, TcpClient>();
-        private readonly IDictionary<string, UdpClient>
-            _updClients = new Dictionary<string, UdpClient>();
         private readonly IDictionary<string, SerialPort>
             _serialPorts = new Dictionary<string, SerialPort>();
         private readonly IEventAggregator _ea;
+        private IModbusFactory _modbusFactory = new ModbusFactory();
 
         public ModbusMasterManager(IEventAggregator ea)
         {
             _ea = ea;
-            ea.GetEvent<IpConnectionRequestEvent>().Subscribe(NewIpConnection);
-            ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
+            _ea.GetEvent<IpConnectionRequestEvent>().Subscribe(NewIpConnection);
+            _ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
+            _ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
 
-            ea.GetEvent<ReadDiscreteInputEvent>().Subscribe(ReadDiscreteInputs);
-            ea.GetEvent<ReadCoilRequestEvent>().Subscribe(ReadCoils);
-            ea.GetEvent<ReadInputRegisterEvent>().Subscribe(ReadInputRegisters);
-            ea.GetEvent<ReadHoldingRegisterEvent>().Subscribe(ReadHoldingRegisters);
+            _ea.GetEvent<ReadDiscreteInputEvent>().Subscribe(ReadDiscreteInputs);
+            _ea.GetEvent<ReadCoilRequestEvent>().Subscribe(ReadCoils);
+            _ea.GetEvent<ReadInputRegisterEvent>().Subscribe(ReadInputRegisters);
+            _ea.GetEvent<ReadHoldingRegisterEvent>().Subscribe(ReadHoldingRegisters);
         }
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
@@ -49,26 +49,31 @@ namespace NModbus.UI.Service
             switch (ipSettings.ModbusType)
             {
                 case ModbusType.Tcp:
-                    var tcpClient = new TcpClient();
-#if !DEBUG
-                    tcpClient.Connect(ipSettings.Hostname, ipSettings.Port);
-#endif
-                    var tcpMaster = factory.CreateMaster(tcpClient);
-                    _masters.Add(ipSettings.Hostname, tcpMaster);
-                    _tcpClients.Add(ipSettings.Hostname, tcpClient);
-
+                    CreateTcpMaster(ipSettings);
                     break;
                 case ModbusType.Udp:
-                    var udpClient = new UdpClient();
-#if !DEBUG
-                    udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
-#endif
-                    var udpMaster = factory.CreateMaster(udpClient);
-                    _masters.Add(ipSettings.Hostname, udpMaster);
+                    CreateTcpMaster(ipSettings);
                     break;
                 default:
                     throw new ArgumentException("Ip settings must be either of type Tcp or Udp.");
             }
+        }
+
+        private void CreateTcpMaster(IpSettings ipSettings)
+        {
+            var tcpClient = new TcpClient();
+            tcpClient.Connect(ipSettings.Hostname, ipSettings.Port);
+            var tcpMaster = _modbusFactory.CreateMaster(tcpClient);
+            _masters.Add(ipSettings.Hostname, tcpMaster);
+            _tcpClients.Add(ipSettings.Hostname, tcpClient);
+        }
+
+        private void CreateUdpMaster(IpSettings ipSettings)
+        {
+            var udpClient = new UdpClient();
+            udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
+            var udpMaster = _modbusFactory.CreateMaster(udpClient);
+            _masters.Add(ipSettings.Hostname, udpMaster);
         }
 
         private void NewSerialConnection(SerialSettings settings)
@@ -85,9 +90,8 @@ namespace NModbus.UI.Service
             };
             
             var adapter = new SerialPortAdapter(serialPort);
-#if !DEBUG
             serialPort.Open();
-#endif
+
             switch (settings.ModbusType)
             {
                 case ModbusType.Rtu:
@@ -101,6 +105,14 @@ namespace NModbus.UI.Service
                 default:
                     throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
             }
+        }
+
+        private void Disconnect()
+        {
+            foreach (var port in _serialPorts.Values)
+                port.Close();
+            foreach (var client in _tcpClients.Values)
+                client.Close();
         }
 
         private void ReadDiscreteInputs(ModbusMultipleAddress address)

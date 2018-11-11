@@ -1,10 +1,11 @@
 ﻿using NModbus.UI.Common.Core;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace NModbus.UI.ViewModels
 {
-    public class IpSettingsViewModel : BindableBase
+    public class IpSettingsViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         IEventAggregator _eventAggregator;
 
@@ -17,11 +18,31 @@ namespace NModbus.UI.ViewModels
         public string Hostname { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 502;
 
-        private void HandleConnectionRequest(ModbusType connectionType)
+        public bool KeepAlive => false;
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            
+        }
+
+        private void HandleConnectionRequest(ModbusType modbusType)
+        {
+            if (!(modbusType == ModbusType.Tcp || modbusType == ModbusType.Udp))
+                return;
+
             var ipSettings = new IpSettings()
             {
-                ModbusType = connectionType,
+                ModbusType = modbusType,
                 Hostname = Hostname,
                 Port = Port
             };

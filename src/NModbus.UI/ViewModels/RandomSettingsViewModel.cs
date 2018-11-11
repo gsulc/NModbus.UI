@@ -1,15 +1,11 @@
 ﻿using NModbus.UI.Common.Core;
 using Prism.Events;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Prism.Regions;
 
 namespace NModbus.UI.ViewModels
 {
-    public class RandomSettingsViewModel : BindableBase
+    public class RandomSettingsViewModel : BindableBase, IRegionMemberLifetime
     {
         IEventAggregator _eventAggregator;
 
@@ -18,6 +14,8 @@ namespace NModbus.UI.ViewModels
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Subscribe(HandleConnectionRequest);
         }
+
+        public bool KeepAlive => false;
 
         private void HandleConnectionRequest(ModbusType type)
         {
