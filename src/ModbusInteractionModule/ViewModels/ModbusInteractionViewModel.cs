@@ -16,7 +16,7 @@ namespace NModbus.UI.InteractionModule.ViewModels
 {
     public class ModbusInteractionViewModel : BindableBase //, INavigationAware
     {
-        private IEventAggregator _eventAggregator;
+        private IEventAggregator _ea;
         IModbusMaster _master;
         byte _slaveId;
         ObservableCollection<LineItem> _lineItems = new ObservableCollection<LineItem>();
@@ -24,9 +24,10 @@ namespace NModbus.UI.InteractionModule.ViewModels
 
         public ModbusInteractionViewModel(IEventAggregator ea)
         {
-            _eventAggregator = ea;
-            ea.GetEvent<NewModbusMasterEvent>().Subscribe(NewModbusMaster);
-            ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
+            _ea = ea;
+            _ea.GetEvent<NewModbusMasterEvent>().Subscribe(NewModbusMaster);
+            _ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
+            //_ea.GetEvent<CoilsReadEvent>().Subscribe();
             RemoveSelectedCommand = new DelegateCommand<IList>(RemoveSelectedItems);
             ReadSingleCommand = new DelegateCommand<LineItem>(ReadSingle);
             ReadCommand = new DelegateCommand(Read);
@@ -93,6 +94,14 @@ namespace NModbus.UI.InteractionModule.ViewModels
             foreach (var value in values)
             {
                 var item = items.Where(i => i.Address == value.Key).First();
+                var address = new ModbusMultipleAddress()
+                {
+                    MasterName = "",
+                    SlaveId = SlaveId,
+                    StartAddress = item.Address,
+                    Count = 1
+                };
+                _ea.GetEvent<ReadCoilsRequestEvent>().Publish(address);
                 item.ValueAsString = value.Value.ToString();
             }
         }

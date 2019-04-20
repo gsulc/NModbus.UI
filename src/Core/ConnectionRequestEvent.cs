@@ -20,16 +20,16 @@ namespace NModbus.UI.Common.Core
 
     // public class NewModbusMasterEvent : PubSubEvent<string> { }
 
-    public class ReadCoilRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
-    public class ReadDiscreteInputEvent : PubSubEvent<ModbusMultipleAddress> { }
-    public class ReadInputRegisterEvent : PubSubEvent<ModbusMultipleAddress> { }
-    public class ReadHoldingRegisterEvent : PubSubEvent<ModbusMultipleAddress> { }
+    public class ReadCoilsRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
+    public class ReadDiscreteInputsRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
+    public class ReadInputRegistersRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
+    public class ReadHoldingRegisterRequestEvent : PubSubEvent<ModbusMultipleAddress> { }
 
     public class WriteCoilRequestEvent : PubSubEvent<CoilData> { }
     public class WriteHoldingRegisterRequest : PubSubEvent<HoldingRegisterData> { }
 
-    public class CoilReadEvent : PubSubEvent<CoilData> { }
+    public class CoilsReadEvent : PubSubEvent<CoilData> { }
     public class DiscreteInputEvent : PubSubEvent<DiscreteInputData> { }
-    public class InputRegisterEvent : PubSubEvent<InputRegisterData> { }
-    public class HoldingRegisterEvent : PubSubEvent<HoldingRegisterData> { }
+    public class InputRegistersReadEvent : PubSubEvent<InputRegisterData> { }
+    public class HoldingRegistersReadEvent : PubSubEvent<HoldingRegisterData> { }
 }

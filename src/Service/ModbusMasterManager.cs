@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using NModbus.Serial;
 using System.IO.Ports;
 using Prism.Events;
+using System.Linq;
 
 namespace NModbus.UI.Service
 {
@@ -26,10 +27,12 @@ namespace NModbus.UI.Service
             _ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
             _ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
 
-            _ea.GetEvent<ReadDiscreteInputEvent>().Subscribe(ReadDiscreteInputs);
-            _ea.GetEvent<ReadCoilRequestEvent>().Subscribe(ReadCoils);
-            _ea.GetEvent<ReadInputRegisterEvent>().Subscribe(ReadInputRegisters);
-            _ea.GetEvent<ReadHoldingRegisterEvent>().Subscribe(ReadHoldingRegisters);
+            _ea.GetEvent<ReadDiscreteInputsRequestEvent>().Subscribe(ReadDiscreteInputs);
+            _ea.GetEvent<ReadCoilsRequestEvent>().Subscribe(ReadCoils);
+            _ea.GetEvent<ReadInputRegistersRequestEvent>().Subscribe(ReadInputRegisters);
+            _ea.GetEvent<ReadHoldingRegisterRequestEvent>().Subscribe(ReadHoldingRegisters);
+
+            _ea.GetEvent<ModbusReadRequestEvent>().Subscribe(ReadObjects);
         }
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
@@ -115,31 +118,61 @@ namespace NModbus.UI.Service
                 client.Close();
         }
 
-        private void ReadDiscreteInputs(ModbusMultipleAddress address)
+        private void ReadObjects(ModbusReadRequest request)
         {
-            bool[] result = _masters[address.MasterName].ReadInputs(address);
-            _ea.GetEvent<DiscreteInputEvent>().Publish(
-                new DiscreteInputData() { Address = address, Values = result });
+            switch (request.ObjectType)
+            {
+                case ObjectType.Coil:
+                    ReadCoils(request);
+                    break;
+                case ObjectType.DiscreteInput:
+                    ReadDiscreteInputs(request);
+                    break;
+                case ObjectType.InputRegister:
+                    ReadInputRegisters(request);
+                    break;
+                case ObjectType.HoldingRegister:
+                    ReadHoldingRegisters(request);
+                    break;
+                default:
+                    throw new ArgumentException("request");
+            }
         }
 
-        private void ReadCoils(ModbusMultipleAddress address)
+        private void ReadDiscreteInputs(ModbusReadRequest request)
         {
-            bool[] result = _masters[address.MasterName].ReadCoils(address);
-            _ea.GetEvent<CoilReadEvent>().Publish(
+            bool[] result = _masters[request.MasterId].ReadInputs(
+                request.SlaveId, request.StartAddress, request.NumberOfPoints);
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(
+                new ModbusReadResponse()
+                {
+                    ObjectType = request.ObjectType,
+                    MasterId = request.MasterId,
+                    SlaveId = request.SlaveId,
+                    StartAddress = request.StartAddress,
+                    Data = result.Select(b => b as object)
+                });
+        }
+
+        private void ReadCoils(ModbusReadRequest request)
+        {
+            bool[] result = _masters[request.MasterId].ReadCoils(
+                request.SlaveId, request.StartAddress, request.NumberOfPoints);
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(
                 new CoilData() { Address = address, Values = result });
         }
 
         private void ReadInputRegisters(ModbusMultipleAddress address)
         {
             UInt16[] result = _masters[address.MasterName].ReadInputRegisters(address);
-            _ea.GetEvent<InputRegisterEvent>().Publish(
+            _ea.GetEvent<InputRegistersReadEvent>().Publish(
                 new InputRegisterData() { Address = address, Values = result });
         }
 
         private void ReadHoldingRegisters(ModbusMultipleAddress address)
         {
             UInt16[] result = _masters[address.MasterName].ReadHoldingRegisters(address);
-            _ea.GetEvent<HoldingRegisterEvent>().Publish(
+            _ea.GetEvent<HoldingRegistersReadEvent>().Publish(
                 new HoldingRegisterData() { Address = address, Values = result });
         }
     }
