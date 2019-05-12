@@ -7,18 +7,18 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             Width="245">
+             Width="250">
     <Grid HorizontalAlignment="Left">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="90" />
             <ColumnDefinition Width="160" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Host Name</Label>
+        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Host Name (IP)</Label>
         <TextBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding Hostname}" />
         <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Port</Label>
         <TextBox Grid.Row="1" Grid.Column="1"  VerticalContentAlignment="Center" Text="{Binding Port}" />

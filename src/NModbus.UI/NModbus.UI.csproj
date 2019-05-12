@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\IpSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\OperationsBasicViewModel.cs" />
     <Compile Include="ViewModels\RandomSettingsViewModel.cs" />
     <Compile Include="ViewModels\SerialSettingsViewModel.cs" />
     <Compile Include="Views\ConnectionButtonTextConverter.cs" />
@@ -90,6 +91,9 @@
     </Compile>
     <Compile Include="Views\IpSettingsView.xaml.cs">
       <DependentUpon>IpSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OperationsBasicView.xaml.cs">
+      <DependentUpon>OperationsBasicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RandomSettingsView.xaml.cs">
       <DependentUpon>RandomSettingsView.xaml</DependentUpon>
@@ -115,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\IpSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OperationsBasicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

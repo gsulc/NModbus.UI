@@ -26,13 +26,12 @@ namespace NModbus.UI.Service
             _ea.GetEvent<IpConnectionRequestEvent>().Subscribe(NewIpConnection);
             _ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
             _ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
-
-            _ea.GetEvent<ReadDiscreteInputsRequestEvent>().Subscribe(ReadDiscreteInputs);
-            _ea.GetEvent<ReadCoilsRequestEvent>().Subscribe(ReadCoils);
-            _ea.GetEvent<ReadInputRegistersRequestEvent>().Subscribe(ReadInputRegisters);
-            _ea.GetEvent<ReadHoldingRegisterRequestEvent>().Subscribe(ReadHoldingRegisters);
-
             _ea.GetEvent<ModbusReadRequestEvent>().Subscribe(ReadObjects);
+
+#if DEBUG
+            _ea.GetEvent<RandomConnectionRequestEvent>().Subscribe(() => 
+                _masters.Add("1", new RandomModbusMaster()));
+#endif
         }
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
@@ -143,37 +142,40 @@ namespace NModbus.UI.Service
         {
             bool[] result = _masters[request.MasterId].ReadInputs(
                 request.SlaveId, request.StartAddress, request.NumberOfPoints);
-            _ea.GetEvent<ModbusReadResponseEvent>().Publish(
-                new ModbusReadResponse()
-                {
-                    ObjectType = request.ObjectType,
-                    MasterId = request.MasterId,
-                    SlaveId = request.SlaveId,
-                    StartAddress = request.StartAddress,
-                    Data = result.Select(b => b as object)
-                });
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(CreateResponse(request, result));
         }
 
         private void ReadCoils(ModbusReadRequest request)
         {
             bool[] result = _masters[request.MasterId].ReadCoils(
                 request.SlaveId, request.StartAddress, request.NumberOfPoints);
-            _ea.GetEvent<ModbusReadResponseEvent>().Publish(
-                new CoilData() { Address = address, Values = result });
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(CreateResponse(request, result));
         }
 
-        private void ReadInputRegisters(ModbusMultipleAddress address)
+        private void ReadInputRegisters(ModbusReadRequest request)
         {
-            UInt16[] result = _masters[address.MasterName].ReadInputRegisters(address);
-            _ea.GetEvent<InputRegistersReadEvent>().Publish(
-                new InputRegisterData() { Address = address, Values = result });
+            UInt16[] result = _masters[request.MasterId].ReadInputRegisters(
+                request.SlaveId, request.StartAddress, request.NumberOfPoints);
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(CreateResponse(request, result));
         }
 
-        private void ReadHoldingRegisters(ModbusMultipleAddress address)
+        private void ReadHoldingRegisters(ModbusReadRequest request)
         {
-            UInt16[] result = _masters[address.MasterName].ReadHoldingRegisters(address);
-            _ea.GetEvent<HoldingRegistersReadEvent>().Publish(
-                new HoldingRegisterData() { Address = address, Values = result });
+            UInt16[] result = _masters[request.MasterId].ReadHoldingRegisters(
+                request.SlaveId, request.StartAddress, request.NumberOfPoints);
+            _ea.GetEvent<ModbusReadResponseEvent>().Publish(CreateResponse(request, result));
+        }
+
+        private ModbusReadResponse CreateResponse(ModbusReadRequest request, dynamic data)
+        {
+            return new ModbusReadResponse()
+            {
+                ObjectType = request.ObjectType,
+                MasterId = request.MasterId,
+                SlaveId = request.SlaveId,
+                StartAddress = request.StartAddress,
+                Data = data
+            };
         }
     }
 }

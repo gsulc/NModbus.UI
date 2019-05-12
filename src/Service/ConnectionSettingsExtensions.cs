@@ -1,4 +1,5 @@
-﻿using NModbus.UI.Common.Core;
+﻿using System;
+using NModbus.UI.Common.Core;
 
 namespace NModbus.UI.Service
 {
@@ -11,7 +12,7 @@ namespace NModbus.UI.Service
             else if (connectionSettings is SerialSettings serialSettings)
                 return serialSettings.PortName;
             else
-                return "";
+                throw new InvalidOperationException("Modbus connection settings must be serial or IP.");
         }
     }
 }

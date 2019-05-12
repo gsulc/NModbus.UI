@@ -1,9 +1,5 @@
 ﻿using Prism.Events;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NModbus.UI.Common.Core
 {
@@ -28,6 +24,6 @@ namespace NModbus.UI.Common.Core
         public string MasterId { get; set; }
         public byte SlaveId { get; set; }
         public ushort StartAddress { get; set; }
-        public IEnumerable<object> Data { get; set; }
+        public dynamic Data { get; set; }
     }
 }
