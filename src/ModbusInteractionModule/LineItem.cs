@@ -1,10 +1,5 @@
 ﻿using NModbus.UI.Common.Core;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NModbus.UI.InteractionModule
 {
@@ -24,7 +19,6 @@ namespace NModbus.UI.InteractionModule
     public abstract class LineItem<T>
     {
         public T Value { get; set; }
-        //public string ValueAsString { get { return } }
     }
 
     public class BoolLineItem : LineItem<bool>

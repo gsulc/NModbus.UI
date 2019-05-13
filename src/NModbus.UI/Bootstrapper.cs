@@ -27,10 +27,7 @@ namespace NModbus.UI
 
             Container.RegisterType<ModbusMasterManager>(new ContainerControlledLifetimeManager());
             Container.Resolve<ModbusMasterManager>();
-#if DEBUG
-            Container.RegisterType<ModbusMasterManagerDebug>(new ContainerControlledLifetimeManager());
-            Container.Resolve<ModbusMasterManagerDebug>();
-#endif
+
             //Container.RegisterType<IApplicationCommands, ApplicationCommands>(
             //    new ContainerControlledLifetimeManager());
         }

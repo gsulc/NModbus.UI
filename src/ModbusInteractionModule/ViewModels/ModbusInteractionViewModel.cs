@@ -16,6 +16,7 @@ namespace NModbus.UI.InteractionModule.ViewModels
         byte _slaveId;
         ObservableCollection<LineItem> _lineItems = new ObservableCollection<LineItem>();
         bool _isEnabled = false;
+        string _masterId;
 
         public ModbusInteractionViewModel(IEventAggregator ea)
         {
@@ -64,7 +65,7 @@ namespace NModbus.UI.InteractionModule.ViewModels
             {
                 var request = new ModbusReadRequest()
                 {
-                    MasterId = "1",
+                    MasterId = _masterId,
                     ObjectType = item.ObjectType,
                     SlaveId = SlaveId,
                     StartAddress = item.Address,
@@ -92,7 +93,7 @@ namespace NModbus.UI.InteractionModule.ViewModels
         {
             var request = new ModbusReadRequest()
             {
-                MasterId = "1",
+                MasterId = _masterId,
                 ObjectType = item.ObjectType,
                 SlaveId = SlaveId,
                 StartAddress = item.Address,
@@ -102,8 +103,9 @@ namespace NModbus.UI.InteractionModule.ViewModels
             _ea.GetEvent<ModbusReadRequestEvent>().Publish(request);
         }
 
-        private void NewModbusMaster(IModbusMaster master)
+        private void NewModbusMaster(string masterId)
         {
+            _masterId = masterId;
             IsEnabled = true;
         }
 

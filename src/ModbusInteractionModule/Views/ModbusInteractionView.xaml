@@ -17,7 +17,7 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <Label>Slave ID:</Label>
-            <TextBox Width="30" Text="255" />
+            <TextBox Width="30" Text="{Binding SlaveId}" />
             <Separator Margin="10" />
             <Button Command="{Binding ReadCommand}" Width="40">Read</Button>
         </StackPanel>

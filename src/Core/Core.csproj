@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
-    <Compile Include="ModbusAddress.cs" />
     <Compile Include="ConnectionRequestEvent.cs" />
     <Compile Include="ConnectionSettings.cs" />
     <Compile Include="IpSettings.cs" />

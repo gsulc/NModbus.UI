@@ -29,8 +29,7 @@ namespace NModbus.UI.Service
             _ea.GetEvent<ModbusReadRequestEvent>().Subscribe(ReadObjects);
 
 #if DEBUG
-            _ea.GetEvent<RandomConnectionRequestEvent>().Subscribe(() => 
-                _masters.Add("1", new RandomModbusMaster()));
+            _ea.GetEvent<RandomConnectionRequestEvent>().Subscribe(NewRandomConnection);
 #endif
         }
 
@@ -108,6 +107,15 @@ namespace NModbus.UI.Service
                     throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
             }
         }
+
+#if DEBUG
+        private void NewRandomConnection()
+        {
+            string masterId = Guid.NewGuid().ToString();
+            _masters.Add(masterId, new RandomModbusMaster());
+            _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
+        }
+#endif
 
         private void Disconnect()
         {
