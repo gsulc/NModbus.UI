@@ -1,4 +1,5 @@
-﻿using NModbus.UI.Common.Core;
+﻿#if DEBUG
+using NModbus.UI.Common.Core;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -24,3 +25,4 @@ namespace NModbus.UI.ViewModels
         }
     }
 }
+#endif
