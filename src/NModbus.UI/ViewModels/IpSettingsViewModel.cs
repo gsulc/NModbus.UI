@@ -37,7 +37,7 @@ namespace NModbus.UI.ViewModels
 
         private void HandleConnectionRequest(ModbusType modbusType)
         {
-            if (!(modbusType == ModbusType.Tcp || modbusType == ModbusType.Udp))
+            if (!IsAnIpType(modbusType))
                 return;
 
             var ipSettings = new IpSettings()
@@ -47,6 +47,14 @@ namespace NModbus.UI.ViewModels
                 Port = Port
             };
             _eventAggregator.GetEvent<IpConnectionRequestEvent>().Publish(ipSettings);
+        }
+
+        private bool IsAnIpType(ModbusType modbusType)
+        {
+            return modbusType == ModbusType.Tcp
+                || modbusType == ModbusType.Udp
+                || modbusType == ModbusType.RtuOverTcp
+                || modbusType == ModbusType.RtuOverUdp;
         }
     }
 }

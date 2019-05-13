@@ -6,6 +6,8 @@
         Udp,
         Rtu,
         Ascii,
+        RtuOverTcp,
+        RtuOverUdp,
 #if DEBUG
         Random,
 #endif

@@ -6,6 +6,7 @@ using NModbus.Serial;
 using System.IO.Ports;
 using Prism.Events;
 using System.Linq;
+using NModbus.IO;
 
 namespace NModbus.UI.Service
 {
@@ -55,6 +56,12 @@ namespace NModbus.UI.Service
                 case ModbusType.Udp:
                     CreateTcpMaster(ipSettings);
                     break;
+                case ModbusType.RtuOverTcp:
+                    CreateRtuOverTcpMaster(ipSettings);
+                    break;
+                case ModbusType.RtuOverUdp:
+                    CreateRtuOverUdpMaster(ipSettings);
+                    break;
                 default:
                     throw new ArgumentException("Ip settings must be either of type Tcp or Udp.");
             }
@@ -74,6 +81,25 @@ namespace NModbus.UI.Service
             var udpClient = new UdpClient();
             udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
             var udpMaster = _modbusFactory.CreateMaster(udpClient);
+            _masters.Add(ipSettings.Hostname, udpMaster);
+        }
+
+        private void CreateRtuOverTcpMaster(IpSettings ipSettings)
+        {
+            var tcpClient = new TcpClient();
+            tcpClient.Connect(ipSettings.Hostname, ipSettings.Port);
+            var adapter = new TcpClientAdapter(tcpClient);
+            var tcpMaster = _modbusFactory.CreateRtuMaster(adapter);
+            _masters.Add(ipSettings.Hostname, tcpMaster);
+            _tcpClients.Add(ipSettings.Hostname, tcpClient);
+        }
+
+        private void CreateRtuOverUdpMaster(IpSettings ipSettings)
+        {
+            var udpClient = new UdpClient();
+            udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
+            var adapter = new UdpClientAdapter(udpClient);
+            var udpMaster = _modbusFactory.CreateRtuMaster(adapter);
             _masters.Add(ipSettings.Hostname, udpMaster);
         }
 

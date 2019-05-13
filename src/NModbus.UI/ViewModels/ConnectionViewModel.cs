@@ -83,6 +83,8 @@ namespace NModbus.UI.ViewModels
                     return nameof(SerialSettingsView);
                 case ModbusType.Tcp:
                 case ModbusType.Udp:
+                case ModbusType.RtuOverTcp:
+                case ModbusType.RtuOverUdp:
                     return nameof(IpSettingsView);
 #if DEBUG
                 case ModbusType.Random:
