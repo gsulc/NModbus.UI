@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModbusInteractionModule\ModbusInteractionModule.csproj">
-      <Project>{eb1c66ad-a33a-456e-a70c-888ac616d101}</Project>
-      <Name>ModbusInteractionModule</Name>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{7f5f197a-f4fe-4d22-a741-2264c0c3ebe4}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

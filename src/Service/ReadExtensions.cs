@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NModbus.UI.InteractionModule
+namespace NModbus.UI.Service
 {
-    public static class Extensions
+    public static class ReadExtensions
     {
         public static object ReadSingleObject(
             this IModbusMaster master, ObjectType objectType, byte slaveId, ushort address)
@@ -155,6 +155,5 @@ namespace NModbus.UI.InteractionModule
 
             return buckets;
         }
-
     }
 }

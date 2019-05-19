@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NModbus.UI.InteractionModule;
+using NModbus.UI.Service;
 
 namespace UnitTests
 {
@@ -14,7 +13,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 3, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)addresses.Length;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
 
             Assert.AreEqual(1, buckets.Count());
         }
@@ -25,7 +24,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 3, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)addresses.Length;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
             ushort address = buckets.ElementAt(0).Item1;
 
             Assert.AreEqual(0, address);
@@ -37,7 +36,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 3, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)addresses.Length;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
             ushort length = buckets.ElementAt(0).Item2;
 
             Assert.AreEqual(addresses.Length, length);
@@ -49,7 +48,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 3, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)(addresses.Length - 1);
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
 
             Assert.AreEqual(2, buckets.Count());
         }
@@ -60,7 +59,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 3, 4, 5, 6, 7 };
             ushort maxContiguous = 2;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
 
             Assert.AreEqual(4, buckets.Count());
         }
@@ -71,7 +70,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)addresses.Length;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
             ushort address1 = buckets.ElementAt(0).Item1;
             ushort address2 = buckets.ElementAt(1).Item1;
 
@@ -85,7 +84,7 @@ namespace UnitTests
             ushort[] addresses = { 0, 1, 2, 4, 5, 6, 7 };
             ushort maxContiguous = (ushort)addresses.Length;
 
-            var buckets = Extensions.FormBuckets(addresses, maxContiguous);
+            var buckets = ReadExtensions.FormBuckets(addresses, maxContiguous);
             ushort length1 = buckets.ElementAt(0).Item2;
             ushort length2 = buckets.ElementAt(1).Item2;
             
