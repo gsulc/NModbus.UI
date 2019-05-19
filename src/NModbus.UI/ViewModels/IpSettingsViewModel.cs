@@ -5,7 +5,7 @@ using Prism.Regions;
 
 namespace NModbus.UI.ViewModels
 {
-    public class IpSettingsViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class IpSettingsViewModel : BindableBase, IRegionMemberLifetime
     {
         IEventAggregator _eventAggregator;
 
@@ -19,21 +19,6 @@ namespace NModbus.UI.ViewModels
         public int Port { get; set; } = 502;
 
         public bool KeepAlive => false;
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            
-        }
 
         private void HandleConnectionRequest(ModbusType modbusType)
         {

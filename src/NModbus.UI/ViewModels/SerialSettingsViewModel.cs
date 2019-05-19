@@ -7,7 +7,7 @@ using System.IO.Ports;
 
 namespace NModbus.UI.ViewModels
 {
-    public class SerialSettingsViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
+    public class SerialSettingsViewModel : BindableBase, IRegionMemberLifetime
     {
         IEventAggregator _eventAggregator;
         public SerialSettingsViewModel(IEventAggregator eventAggregator)
@@ -30,21 +30,6 @@ namespace NModbus.UI.ViewModels
 
         public bool KeepAlive => false;
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            
-        }
-
         private void HandleConnectionRequest(ModbusType modbusType)
         {
             if (!(modbusType == ModbusType.Rtu || modbusType == ModbusType.Ascii))
@@ -60,6 +45,7 @@ namespace NModbus.UI.ViewModels
                 StopBits = StopBits,
                 Handshake = Handshake
             };
+
             _eventAggregator.GetEvent<SerialConnectionRequestEvent>().Publish(serialSettings);
         }
     }
