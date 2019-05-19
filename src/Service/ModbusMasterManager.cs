@@ -14,10 +14,6 @@ namespace NModbus.UI.Service
     {
         private readonly IDictionary<string, IModbusMaster> 
             _masters = new Dictionary<string, IModbusMaster>();
-        private readonly IDictionary<string, TcpClient> 
-            _tcpClients = new Dictionary<string, TcpClient>();
-        private readonly IDictionary<string, SerialPort>
-            _serialPorts = new Dictionary<string, SerialPort>();
         private readonly IEventAggregator _ea;
         private IModbusFactory _modbusFactory = new ModbusFactory();
 
@@ -36,16 +32,9 @@ namespace NModbus.UI.Service
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
 
-        public void Dispose()
-        {
-            foreach (var port in _serialPorts.Values)
-                port.Dispose();
-            foreach (var client in _tcpClients.Values)
-                client.Close();
-        }
-
         private void NewIpConnection(IpSettings ipSettings)
         {
+            string masterId = ipSettings.Hostname;
             var factory = new ModbusFactory();
 
             switch (ipSettings.ModbusType)
@@ -65,6 +54,8 @@ namespace NModbus.UI.Service
                 default:
                     throw new ArgumentException("Ip settings must be either of type Tcp or Udp.");
             }
+
+            _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
         }
 
         private void CreateTcpMaster(IpSettings ipSettings)
@@ -72,8 +63,8 @@ namespace NModbus.UI.Service
             var tcpClient = new TcpClient();
             tcpClient.Connect(ipSettings.Hostname, ipSettings.Port);
             var tcpMaster = _modbusFactory.CreateMaster(tcpClient);
-            _masters.Add(ipSettings.Hostname, tcpMaster);
-            _tcpClients.Add(ipSettings.Hostname, tcpClient);
+            AddMaster(ipSettings.Hostname, tcpMaster);
+            
         }
 
         private void CreateUdpMaster(IpSettings ipSettings)
@@ -81,7 +72,7 @@ namespace NModbus.UI.Service
             var udpClient = new UdpClient();
             udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
             var udpMaster = _modbusFactory.CreateMaster(udpClient);
-            _masters.Add(ipSettings.Hostname, udpMaster);
+            AddMaster(ipSettings.Hostname, udpMaster);
         }
 
         private void CreateRtuOverTcpMaster(IpSettings ipSettings)
@@ -90,8 +81,7 @@ namespace NModbus.UI.Service
             tcpClient.Connect(ipSettings.Hostname, ipSettings.Port);
             var adapter = new TcpClientAdapter(tcpClient);
             var tcpMaster = _modbusFactory.CreateRtuMaster(adapter);
-            _masters.Add(ipSettings.Hostname, tcpMaster);
-            _tcpClients.Add(ipSettings.Hostname, tcpClient);
+            AddMaster(ipSettings.Hostname, tcpMaster);
         }
 
         private void CreateRtuOverUdpMaster(IpSettings ipSettings)
@@ -100,11 +90,12 @@ namespace NModbus.UI.Service
             udpClient.Connect(ipSettings.Hostname, ipSettings.Port);
             var adapter = new UdpClientAdapter(udpClient);
             var udpMaster = _modbusFactory.CreateRtuMaster(adapter);
-            _masters.Add(ipSettings.Hostname, udpMaster);
+            AddMaster(ipSettings.Hostname, udpMaster);
         }
 
         private void NewSerialConnection(SerialSettings settings)
         {
+            string masterId = settings.PortName;
             var factory = new ModbusFactory();
             SerialPort serialPort = new SerialPort()
             {
@@ -123,32 +114,45 @@ namespace NModbus.UI.Service
             {
                 case ModbusType.Rtu:
                     var rtuMaster = factory.CreateRtuMaster(adapter);
-                    _masters.Add(settings.PortName, rtuMaster);
+                    AddMaster(masterId, rtuMaster);
                     break;
                 case ModbusType.Ascii:
                     var asciiMaster = factory.CreateAsciiMaster(adapter);
-                    _masters.Add(settings.PortName, asciiMaster);
+                    AddMaster(masterId, asciiMaster);
                     break;
                 default:
                     throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
             }
+
+            _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
         }
 
 #if DEBUG
         private void NewRandomConnection()
         {
             string masterId = Guid.NewGuid().ToString();
-            _masters.Add(masterId, new RandomModbusMaster());
+            AddMaster(masterId, new RandomModbusMaster());
             _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
         }
 #endif
 
         private void Disconnect()
         {
-            foreach (var port in _serialPorts.Values)
-                port.Close();
-            foreach (var client in _tcpClients.Values)
-                client.Close();
+            foreach (var masterId in _masters.Keys.ToArray())
+                RemoveMaster(masterId);
+        }
+
+        private void AddMaster(string masterId, IModbusMaster master)
+        {
+            if (!_masters.ContainsKey(masterId))
+                _masters.Add(masterId, master);
+        }
+
+        private void RemoveMaster(string masterId)
+        {
+            var master = _masters[masterId];
+            _masters.Remove(masterId);
+            master.Dispose();
         }
 
         private void ReadObjects(ModbusReadRequest request)
@@ -210,6 +214,11 @@ namespace NModbus.UI.Service
                 StartAddress = request.StartAddress,
                 Data = data
             };
+        }
+
+        public void Dispose()
+        {
+            Disconnect();
         }
     }
 }
