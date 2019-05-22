@@ -31,6 +31,7 @@ namespace NModbus.UI.ViewModels
                 Hostname = Hostname,
                 Port = Port
             };
+
             _eventAggregator.GetEvent<IpConnectionRequestEvent>().Publish(ipSettings);
         }
 
