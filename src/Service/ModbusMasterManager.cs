@@ -15,7 +15,7 @@ namespace NModbus.UI.Service
         private readonly IDictionary<string, IModbusMaster> 
             _masters = new Dictionary<string, IModbusMaster>();
         private readonly IEventAggregator _ea;
-        private IModbusFactory _modbusFactory = new ModbusFactory();
+        private readonly IModbusFactory _modbusFactory = new ModbusFactory();
 
         public ModbusMasterManager(IEventAggregator ea)
         {
@@ -34,28 +34,35 @@ namespace NModbus.UI.Service
 
         private void NewIpConnection(IpSettings ipSettings)
         {
-            string masterId = ipSettings.Hostname;
-            var factory = new ModbusFactory();
-
-            switch (ipSettings.ModbusType)
+            try
             {
-                case ModbusType.Tcp:
-                    CreateTcpMaster(ipSettings);
-                    break;
-                case ModbusType.Udp:
-                    CreateTcpMaster(ipSettings);
-                    break;
-                case ModbusType.RtuOverTcp:
-                    CreateRtuOverTcpMaster(ipSettings);
-                    break;
-                case ModbusType.RtuOverUdp:
-                    CreateRtuOverUdpMaster(ipSettings);
-                    break;
-                default:
-                    throw new ArgumentException("Ip settings must be either of type Tcp or Udp.");
-            }
+                string masterId = ipSettings.Hostname;
+                var factory = new ModbusFactory();
 
-            _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
+                switch (ipSettings.ModbusType)
+                {
+                    case ModbusType.Tcp:
+                        CreateTcpMaster(ipSettings);
+                        break;
+                    case ModbusType.Udp:
+                        CreateTcpMaster(ipSettings);
+                        break;
+                    case ModbusType.RtuOverTcp:
+                        CreateRtuOverTcpMaster(ipSettings);
+                        break;
+                    case ModbusType.RtuOverUdp:
+                        CreateRtuOverUdpMaster(ipSettings);
+                        break;
+                    default:
+                        throw new ArgumentException("Ip settings must be either of type Tcp or Udp.");
+                }
+
+                _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
+            }
+            catch (Exception e)
+            {
+                _ea.GetEvent<ExceptionEvent>().Publish(e);
+            }
         }
 
         private void CreateTcpMaster(IpSettings ipSettings)
@@ -95,36 +102,43 @@ namespace NModbus.UI.Service
 
         private void NewSerialConnection(SerialSettings settings)
         {
-            string masterId = settings.PortName;
-            var factory = new ModbusFactory();
-            SerialPort serialPort = new SerialPort()
+            try
             {
-                PortName = settings.PortName,
-                BaudRate = settings.BaudRate,
-                DataBits = settings.DataBits,
-                Parity = settings.Parity,
-                StopBits = settings.StopBits,
-                Handshake = settings.Handshake
-            };
-            
-            var adapter = new SerialPortAdapter(serialPort);
-            serialPort.Open();
+                string masterId = settings.PortName;
+                var factory = new ModbusFactory();
+                SerialPort serialPort = new SerialPort()
+                {
+                    PortName = settings.PortName,
+                    BaudRate = settings.BaudRate,
+                    DataBits = settings.DataBits,
+                    Parity = settings.Parity,
+                    StopBits = settings.StopBits,
+                    Handshake = settings.Handshake
+                };
 
-            switch (settings.ModbusType)
-            {
-                case ModbusType.Rtu:
-                    var rtuMaster = factory.CreateRtuMaster(adapter);
-                    AddMaster(masterId, rtuMaster);
-                    break;
-                case ModbusType.Ascii:
-                    var asciiMaster = factory.CreateAsciiMaster(adapter);
-                    AddMaster(masterId, asciiMaster);
-                    break;
-                default:
-                    throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
+                var adapter = new SerialPortAdapter(serialPort);
+                serialPort.Open();
+
+                switch (settings.ModbusType)
+                {
+                    case ModbusType.Rtu:
+                        var rtuMaster = factory.CreateRtuMaster(adapter);
+                        AddMaster(masterId, rtuMaster);
+                        break;
+                    case ModbusType.Ascii:
+                        var asciiMaster = factory.CreateAsciiMaster(adapter);
+                        AddMaster(masterId, asciiMaster);
+                        break;
+                    default:
+                        throw new ArgumentException("Serial Settings must be either of type Rtu or Ascii.");
+                }
+
+                _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
             }
-
-            _ea.GetEvent<NewModbusMasterEvent>().Publish(masterId);
+            catch (Exception e)
+            {
+                _ea.GetEvent<ExceptionEvent>().Publish(e);
+            }
         }
 
 #if DEBUG

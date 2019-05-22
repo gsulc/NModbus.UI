@@ -50,6 +50,7 @@
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="ConnectionRequestEvent.cs" />
     <Compile Include="ConnectionSettings.cs" />
+    <Compile Include="ExceptionEvent.cs" />
     <Compile Include="IpSettings.cs" />
     <Compile Include="ModbusRequest.cs" />
     <Compile Include="ModbusType.cs" />

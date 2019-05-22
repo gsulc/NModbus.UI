@@ -80,6 +80,7 @@
     </ApplicationDefinition>
     <Compile Include="Enums.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\IpSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\OperationsBasicViewModel.cs" />
@@ -88,6 +89,9 @@
     <Compile Include="Views\ConnectionButtonTextConverter.cs" />
     <Compile Include="Views\ConnectionView.xaml.cs">
       <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorView.xaml.cs">
+      <DependentUpon>ErrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IpSettingsView.xaml.cs">
       <DependentUpon>IpSettingsView.xaml</DependentUpon>
@@ -101,6 +105,10 @@
     <Compile Include="Views\SerialSettingsView.xaml.cs">
       <DependentUpon>SerialSettingsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ErrorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
