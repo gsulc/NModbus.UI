@@ -32,7 +32,7 @@ namespace NModbus.UI.ViewModels
                 Port = Port
             };
 
-            _eventAggregator.GetEvent<IpConnectionRequestEvent>().Publish(ipSettings);
+            _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish(ipSettings);
         }
 
         private bool IsAnIpType(ModbusType modbusType)

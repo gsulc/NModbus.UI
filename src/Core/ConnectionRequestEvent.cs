@@ -10,10 +10,6 @@ namespace NModbus.UI.Common.Core
 
     public class ConnectionRequestEvent : PubSubEvent<ConnectionSettings> { }
 
-    public class IpConnectionRequestEvent : PubSubEvent<IpSettings> { }
-
-    public class SerialConnectionRequestEvent : PubSubEvent<SerialSettings> { }
-
 #if DEBUG
     public class RandomConnectionRequestEvent : PubSubEvent { }
 #endif

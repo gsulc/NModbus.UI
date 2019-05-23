@@ -46,7 +46,7 @@ namespace NModbus.UI.ViewModels
                 Handshake = Handshake
             };
 
-            _eventAggregator.GetEvent<SerialConnectionRequestEvent>().Publish(serialSettings);
+            _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish(serialSettings);
         }
     }
 }

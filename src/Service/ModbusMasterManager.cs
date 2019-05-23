@@ -20,8 +20,7 @@ namespace NModbus.UI.Service
         public ModbusMasterManager(IEventAggregator ea)
         {
             _ea = ea;
-            _ea.GetEvent<IpConnectionRequestEvent>().Subscribe(NewIpConnection);
-            _ea.GetEvent<SerialConnectionRequestEvent>().Subscribe(NewSerialConnection);
+            _ea.GetEvent<ConnectionRequestEvent>().Subscribe(NewConnection);
             _ea.GetEvent<DisconnectRequestEvent>().Subscribe(Disconnect);
             _ea.GetEvent<ModbusReadRequestEvent>().Subscribe(ReadObjects);
 
@@ -31,6 +30,16 @@ namespace NModbus.UI.Service
         }
 
         public IEnumerable<IModbusMaster> ModbusMasters => _masters.Values;
+
+        private void NewConnection(ConnectionSettings connectionSettings)
+        {
+            if (connectionSettings is IpSettings)
+                NewIpConnection(connectionSettings as IpSettings);
+            else if (connectionSettings is SerialSettings)
+                NewSerialConnection(connectionSettings as SerialSettings);
+            else
+                throw new ArgumentException("connectionSettings");
+        }
 
         private void NewIpConnection(IpSettings ipSettings)
         {
