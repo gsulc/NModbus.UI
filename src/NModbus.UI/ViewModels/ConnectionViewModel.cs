@@ -24,8 +24,11 @@ namespace NModbus.UI.ViewModels
         {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<NewModbusMasterEvent>().Subscribe(OnConnectionConfirmed);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(OnDisconnected);
             RegisterNavigationTypes(container);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
+            SelectedModbusType = ModbusType.Tcp;
         }
 
         public DelegateCommand ConnectionCommand { get; private set; }
@@ -70,7 +73,7 @@ namespace NModbus.UI.ViewModels
 
         private void NavigateToRegion()
         {
-            string viewName = GetSettingsViewName(_modbusType);
+            string viewName = GetSettingsViewName(SelectedModbusType);
             _regionManager.RequestNavigate("ConnectionSettingsRegion", viewName);
         }
 
@@ -97,13 +100,22 @@ namespace NModbus.UI.ViewModels
 
         private void ConnectionStateChange()
         {
-            bool connecting = !IsConnected;
-            if (connecting)
+            if (!IsConnected)
                 _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Publish(SelectedModbusType);
             else // disconnecting
                 _eventAggregator.GetEvent<DisconnectRequestEvent>().Publish();
-            IsConnected = connecting;
-            IsEnabled = !IsEnabled;
+        }
+
+        private void OnConnectionConfirmed(string masterId)
+        {
+            IsConnected = true;
+            IsEnabled = false;
+        }
+
+        private void OnDisconnected(string masterId)
+        {
+            IsConnected = false;
+            IsEnabled = true;
         }
     }
     

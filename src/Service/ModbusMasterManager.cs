@@ -167,6 +167,8 @@ namespace NModbus.UI.Service
             var master = _masters[masterId];
             _masters.Remove(masterId);
             master.Dispose();
+            master = null;
+            _ea.GetEvent<DisconnectEvent>().Publish(masterId);
         }
 
         private void ReadObjects(ModbusReadRequest request)

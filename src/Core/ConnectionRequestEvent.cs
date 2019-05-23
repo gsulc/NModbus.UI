@@ -4,9 +4,11 @@ namespace NModbus.UI.Common.Core
 {
     public class DisconnectRequestEvent : PubSubEvent { }
 
-    public class ConnectionRequestEvent : PubSubEvent { }
+    public class DisconnectEvent : PubSubEvent<string> { }
 
     public class ConnectionTypeRequestEvent : PubSubEvent<ModbusType> { }
+
+    public class ConnectionRequestEvent : PubSubEvent<ConnectionSettings> { }
 
     public class IpConnectionRequestEvent : PubSubEvent<IpSettings> { }
 

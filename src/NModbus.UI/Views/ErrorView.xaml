@@ -9,6 +9,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <DockPanel Visibility="{Binding Visibility}">
         <Button DockPanel.Dock="Left" Width="15" Command="{Binding CloseCommand}">X</Button>
-        <TextBlock Text="{Binding LatestErrorMessage}" DockPanel.Dock="Left" />
+        <Separator  Margin="5" />
+        <TextBlock Text="{Binding LatestErrorMessage}" DockPanel.Dock="Left" VerticalAlignment="Center" />
     </DockPanel>
 </UserControl>
