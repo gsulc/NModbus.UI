@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Width="245">
+             Width="250">
     <UserControl.Resources>
         <Style TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -47,7 +47,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="85" />
+            <ColumnDefinition Width="90" />
             <ColumnDefinition Width="160" />
         </Grid.ColumnDefinitions>
     </Grid>
