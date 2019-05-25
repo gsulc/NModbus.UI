@@ -12,6 +12,7 @@ namespace NModbus.UI.ViewModels
         {
             _regionManager = regionManager;
             _regionManager.RegisterViewWithRegion("ConnectionRegion", typeof(ConnectionView));
+            _regionManager.RegisterViewWithRegion("ModbusInteractionRegion", typeof(ModbusInteractionView));
             _regionManager.RegisterViewWithRegion("ErrorRegion", typeof(ErrorView));
         }
     }

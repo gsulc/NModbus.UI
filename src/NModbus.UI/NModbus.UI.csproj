@@ -79,10 +79,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Enums.cs" />
+    <Compile Include="Models\LineItem.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\IpSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ModbusInteractionViewModel.cs" />
     <Compile Include="ViewModels\OperationsBasicViewModel.cs" />
     <Compile Include="ViewModels\RandomSettingsViewModel.cs" />
     <Compile Include="ViewModels\SerialSettingsViewModel.cs" />
@@ -95,6 +97,9 @@
     </Compile>
     <Compile Include="Views\IpSettingsView.xaml.cs">
       <DependentUpon>IpSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModbusInteractionView.xaml.cs">
+      <DependentUpon>ModbusInteractionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperationsBasicView.xaml.cs">
       <DependentUpon>OperationsBasicView.xaml</DependentUpon>
@@ -129,6 +134,10 @@
     <Page Include="Views\IpSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ModbusInteractionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\OperationsBasicView.xaml">
       <SubType>Designer</SubType>
@@ -174,10 +183,6 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{44a8511b-87ea-4ed9-93fd-05db2a2bc10e}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModbusInteractionModule\ModbusInteractionModule.csproj">
-      <Project>{eb1c66ad-a33a-456e-a70c-888ac616d101}</Project>
-      <Name>ModbusInteractionModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{7f5f197a-f4fe-4d22-a741-2264c0c3ebe4}</Project>

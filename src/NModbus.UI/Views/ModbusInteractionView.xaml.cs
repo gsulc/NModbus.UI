@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NModbus.UI.ConnectionModule.Views
+namespace NModbus.UI.Views
 {
     /// <summary>
-    /// Interaction logic for ConnectionView.xaml
+    /// Interaction logic for ModbusInteractionView.xaml
     /// </summary>
-    public partial class ConnectionView : UserControl
+    public partial class ModbusInteractionView : UserControl
     {
-        public ConnectionView()
+        public ModbusInteractionView()
         {
             InitializeComponent();
         }

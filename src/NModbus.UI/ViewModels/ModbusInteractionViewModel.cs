@@ -1,14 +1,13 @@
 ﻿using NModbus.UI.Common.Core;
-using NModbus.UI.Service;
+using NModbus.UI.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace NModbus.UI.InteractionModule.ViewModels
+namespace NModbus.UI.ViewModels
 {
     public class ModbusInteractionViewModel : BindableBase //, INavigationAware
     {
