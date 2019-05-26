@@ -1,4 +1,5 @@
 ﻿using NModbus.UI.Common.Core;
+using NModbus.UI.Properties;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -13,10 +14,11 @@ namespace NModbus.UI.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Subscribe(HandleConnectionRequest);
+            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
         }
 
-        public string Hostname { get; set; } = "127.0.0.1";
-        public int Port { get; set; } = 502;
+        public string Hostname { get; set; } = Settings.Default.Hostname;
+        public int Port { get; set; } = Settings.Default.Port;
 
         public bool KeepAlive => false;
 
@@ -41,6 +43,13 @@ namespace NModbus.UI.ViewModels
                 || modbusType == ModbusType.Udp
                 || modbusType == ModbusType.RtuOverTcp
                 || modbusType == ModbusType.RtuOverUdp;
+        }
+
+        private void OnClose()
+        {
+            Settings.Default.Hostname = Hostname;
+            Settings.Default.Port = Port;
+            Settings.Default.Save();
         }
     }
 }

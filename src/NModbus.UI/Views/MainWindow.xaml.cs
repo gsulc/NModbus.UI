@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NModbus.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,14 @@ namespace NModbus.UI.Views
         public MainWindow()
         {
             InitializeComponent();
+            Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var viewModel = (MainWindowViewModel)DataContext;
+            if (viewModel.CloseCommand.CanExecute(null))
+                viewModel.CloseCommand.Execute(null);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NModbus.UI.Common.Core;
+using NModbus.UI.Properties;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,19 +15,19 @@ namespace NModbus.UI.ViewModels
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Subscribe(HandleConnectionRequest);
+            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
         }
 
         public IEnumerable<Parity> ParityOptions => Enums.GetValues<Parity>();
         public IEnumerable<StopBits> StopBitsOptions => Enums.GetValues<StopBits>();
         public IEnumerable<Handshake> HandshakeOptions => Enums.GetValues<Handshake>();
 
-        // TODO: load initial values from saved settings
-        public string PortName { get; set; } = "COM1";
-        public int BaudRate { get; set; } = 9600;
-        public int DataBits { get; set; } = 8;
-        public Parity Parity { get; set; } = Parity.None;
-        public StopBits StopBits { get; set; } = StopBits.One;
-        public Handshake Handshake { get; set; } = Handshake.None;
+        public string PortName { get; set; } = Settings.Default.PortName;
+        public int BaudRate { get; set; } = Settings.Default.BaudRate;
+        public int DataBits { get; set; } = Settings.Default.DataBits;
+        public Parity Parity { get; set; } = Settings.Default.Parity;
+        public StopBits StopBits { get; set; } = Settings.Default.StopBits;
+        public Handshake Handshake { get; set; } = Settings.Default.Handshake;
 
         public bool KeepAlive => false;
 
@@ -47,6 +48,17 @@ namespace NModbus.UI.ViewModels
             };
 
             _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish(serialSettings);
+        }
+
+        private void OnClose()
+        {
+            Settings.Default.PortName = PortName;
+            Settings.Default.BaudRate = BaudRate;
+            Settings.Default.DataBits = DataBits;
+            Settings.Default.Parity = Parity;
+            Settings.Default.StopBits = StopBits;
+            Settings.Default.Handshake = Handshake;
+            Settings.Default.Save();
         }
     }
 }

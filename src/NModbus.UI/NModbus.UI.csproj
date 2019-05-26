@@ -80,6 +80,7 @@
     </ApplicationDefinition>
     <Compile Include="Enums.cs" />
     <Compile Include="Models\LineItem.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\IpSettingsViewModel.cs" />

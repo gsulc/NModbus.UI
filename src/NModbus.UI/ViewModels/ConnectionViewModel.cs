@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using NModbus.UI.Common.Core;
+using NModbus.UI.Properties;
 using NModbus.UI.Views;
 using Prism.Commands;
 using Prism.Events;
@@ -26,9 +27,10 @@ namespace NModbus.UI.ViewModels
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<NewModbusMasterEvent>().Subscribe(OnConnectionConfirmed);
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(OnDisconnected);
+            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
             RegisterNavigationTypes(container);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
-            SelectedModbusType = ModbusType.Tcp;
+            SelectedModbusType = Settings.Default.ModbusType;
         }
 
         public DelegateCommand ConnectionCommand { get; private set; }
@@ -116,6 +118,12 @@ namespace NModbus.UI.ViewModels
         {
             IsConnected = false;
             IsEnabled = true;
+        }
+
+        private void OnClose()
+        {
+            Settings.Default.ModbusType = SelectedModbusType;
+            Settings.Default.Save();
         }
     }
     
