@@ -60,7 +60,7 @@ namespace NModbus.UI.ViewModels
             }
             set
             {
-                _modbusType = value;
+                SetProperty(ref _modbusType, value);
                 NavigateToRegion();
             }
         }
