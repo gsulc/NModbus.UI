@@ -26,6 +26,7 @@ namespace NModbus.UI.ViewModels
             _ea.GetEvent<ModbusReadResponseEvent>().Subscribe(OnReadResponse);
             AddToListCommand = new DelegateCommand(AddToList);
             RemoveSelectedCommand = new DelegateCommand<IList>(RemoveSelectedItems);
+            RemoveAllCommand = new DelegateCommand(RemoveAll);
             ReadSingleCommand = new DelegateCommand<LineItem>(ReadSingle);
             ReadCommand = new DelegateCommand(Read);
         }
@@ -65,6 +66,7 @@ namespace NModbus.UI.ViewModels
 
         public DelegateCommand AddToListCommand { get; private set; }
         public DelegateCommand<IList> RemoveSelectedCommand { get; private set; }
+        public DelegateCommand RemoveAllCommand { get; set; }
         public DelegateCommand<LineItem> ReadSingleCommand { get; private set; }
         public DelegateCommand<LineItem> WriteSingleCommand { get; private set; }
         public DelegateCommand ReadCommand { get; private set; }
@@ -97,6 +99,11 @@ namespace NModbus.UI.ViewModels
             items.CopyTo(arr, 0);
             foreach (var item in arr)
                 LineItems.Remove(item as LineItem);
+        }
+
+        private void RemoveAll()
+        {
+            LineItems.Clear();
         }
 
         private void ReadSingle(LineItem item)
