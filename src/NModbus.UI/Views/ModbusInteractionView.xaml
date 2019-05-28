@@ -16,16 +16,27 @@
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Label>Slave ID:</Label>
+            <Label>Slave ID</Label>
             <TextBox Width="30" Text="{Binding SlaveId}" />
-            <Separator Margin="10" />
-            <Button Command="{Binding ReadCommand}" Width="40">Read</Button>
+            <Separator Margin="5" />
+            <Button Command="{Binding ReadCommand}" Width="60">Read All</Button>
         </StackPanel>
         <Separator Margin="0,5,0,5" />
+        <StackPanel Orientation="Horizontal">
+            <Label>Object Type</Label>
+            <ComboBox ItemsSource="{Binding ObjectTypes}" SelectedValue="{Binding ObjectType}" Width="115" />
+            <Label>Start Address</Label>
+            <TextBox Width="30" Text="{Binding StartAddress}" />
+            <Label>Number of Items</Label>
+            <TextBox Width="30" Text="{Binding NumberOfItems}" />
+            <Separator Margin="5" />
+            <Button Width="75" Command="{Binding AddToListCommand}">Add to List</Button>
+        </StackPanel>
+        <Separator Margin="0,10,0,10" />
         <DataGrid Name="ObjectGrid" 
               ItemsSource="{Binding LineItems}" 
               SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
-              Height="300"
+              Height="280"
               ScrollViewer.CanContentScroll="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>
