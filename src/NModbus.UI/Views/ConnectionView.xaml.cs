@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NModbus.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace NModbus.UI.Views
         public ConnectionView()
         {
             InitializeComponent();
+            Loaded += ConnectionView_Loaded;
+        }
+
+        private void ConnectionView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (ConnectionViewModel)DataContext;
+            viewModel.LoadedCommand.Execute();
         }
     }
 }
