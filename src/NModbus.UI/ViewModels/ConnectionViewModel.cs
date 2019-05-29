@@ -29,11 +29,11 @@ namespace NModbus.UI.ViewModels
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(OnDisconnected);
             _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
             RegisterNavigationTypes(container);
-            LoadedCommand = new DelegateCommand(OnLoaded);
+            ViewLoadedCommand = new DelegateCommand(OnViewLoaded);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
         }
 
-        public DelegateCommand LoadedCommand { get; private set; }
+        public DelegateCommand ViewLoadedCommand { get; private set; }
         public DelegateCommand ConnectionCommand { get; private set; }
 
         public IEnumerable<ModbusType> ModbusTypes => Enums.GetValues<ModbusType>();
@@ -74,7 +74,7 @@ namespace NModbus.UI.ViewModels
 #endif
         }
 
-        private void OnLoaded()
+        private void OnViewLoaded()
         {
             SelectedModbusType = Settings.Default.ModbusType;
         }

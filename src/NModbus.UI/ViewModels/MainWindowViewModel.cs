@@ -20,12 +20,12 @@ namespace NModbus.UI.ViewModels
             _regionManager.RegisterViewWithRegion("ConnectionRegion", typeof(ConnectionView));
             _regionManager.RegisterViewWithRegion("ModbusInteractionRegion", typeof(ModbusInteractionView));
             _regionManager.RegisterViewWithRegion("ErrorRegion", typeof(ErrorView));
-            CloseCommand = new DelegateCommand(OnClose);
+            WindowClosingCommand = new DelegateCommand(OnWindowClosing);
         }
 
-        public ICommand CloseCommand { get; private set; }
+        public ICommand WindowClosingCommand { get; private set; }
 
-        private void OnClose()
+        private void OnWindowClosing()
         {
             _ea.GetEvent<CloseEvent>().Publish();
         }

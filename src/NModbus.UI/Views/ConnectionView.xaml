@@ -6,7 +6,13 @@
              xmlns:local="clr-namespace:NModbus.UI.Views"
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <local:ConnectionButtonTextConverter x:Key="ConnectionButtonText" />
         <Style TargetType="Separator">
