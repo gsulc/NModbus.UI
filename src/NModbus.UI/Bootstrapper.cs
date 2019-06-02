@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using NModbus.UI.Common.Core;
 using NModbus.UI.Service;
 using NModbus.UI.Views;
 using Prism.Unity;
@@ -22,11 +23,9 @@ namespace NModbus.UI
         {
             base.ConfigureContainer();
 
+            Container.RegisterType<IApplicationCommands, ApplicationCommands>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ModbusMasterManager>(new ContainerControlledLifetimeManager());
             Container.Resolve<ModbusMasterManager>();
-
-            //Container.RegisterType<IApplicationCommands, ApplicationCommands>(
-            //    new ContainerControlledLifetimeManager());
         }
     }
 }

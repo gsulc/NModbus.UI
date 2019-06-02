@@ -1,5 +1,6 @@
 ﻿using NModbus.UI.Common.Core;
 using NModbus.UI.Properties;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -10,12 +11,17 @@ namespace NModbus.UI.ViewModels
 {
     public class SerialSettingsViewModel : BindableBase, IRegionMemberLifetime
     {
+        IApplicationCommands _applicationCommands;
         IEventAggregator _eventAggregator;
-        public SerialSettingsViewModel(IEventAggregator eventAggregator)
+
+        public SerialSettingsViewModel(IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
         {
+            _applicationCommands = applicationCommands;
             _eventAggregator = eventAggregator;
+
+            SaveCommand = new DelegateCommand(SaveSettings);
+            _applicationCommands.SaveCommand.RegisterCommand(SaveCommand);
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Subscribe(HandleConnectionRequest);
-            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
         }
 
         public IEnumerable<Parity> ParityOptions => Enums.GetValues<Parity>();
@@ -29,6 +35,7 @@ namespace NModbus.UI.ViewModels
         public StopBits StopBits { get; set; } = Settings.Default.StopBits;
         public Handshake Handshake { get; set; } = Settings.Default.Handshake;
 
+        public DelegateCommand SaveCommand { get; private set; }
         public bool KeepAlive => false;
 
         private void HandleConnectionRequest(ModbusType modbusType)
@@ -50,7 +57,7 @@ namespace NModbus.UI.ViewModels
             _eventAggregator.GetEvent<ConnectionRequestEvent>().Publish(serialSettings);
         }
 
-        private void OnClose()
+        private void SaveSettings()
         {
             Settings.Default.PortName = PortName;
             Settings.Default.BaudRate = BaudRate;

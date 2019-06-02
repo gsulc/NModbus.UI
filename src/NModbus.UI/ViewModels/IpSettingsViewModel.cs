@@ -1,5 +1,6 @@
 ﻿using NModbus.UI.Common.Core;
 using NModbus.UI.Properties;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -8,18 +9,23 @@ namespace NModbus.UI.ViewModels
 {
     public class IpSettingsViewModel : BindableBase, IRegionMemberLifetime
     {
+        IApplicationCommands _applicationCommands;
         IEventAggregator _eventAggregator;
 
-        public IpSettingsViewModel(IEventAggregator eventAggregator)
+        public IpSettingsViewModel(IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
         {
+            _applicationCommands = applicationCommands;
             _eventAggregator = eventAggregator;
+
+            SaveCommand = new DelegateCommand(SaveSettings);
+            _applicationCommands.SaveCommand.RegisterCommand(SaveCommand);
             _eventAggregator.GetEvent<ConnectionTypeRequestEvent>().Subscribe(HandleConnectionRequest);
-            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
         }
 
         public string Hostname { get; set; } = Settings.Default.Hostname;
         public int Port { get; set; } = Settings.Default.Port;
 
+        public DelegateCommand SaveCommand { get; private set; }
         public bool KeepAlive => false;
 
         private void HandleConnectionRequest(ModbusType modbusType)
@@ -45,7 +51,7 @@ namespace NModbus.UI.ViewModels
                 || modbusType == ModbusType.RtuOverUdp;
         }
 
-        private void OnClose()
+        private void SaveSettings()
         {
             Settings.Default.Hostname = Hostname;
             Settings.Default.Port = Port;

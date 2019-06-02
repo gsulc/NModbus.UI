@@ -4,11 +4,11 @@ namespace NModbus.UI.Common.Core
 {
     public interface IApplicationCommands
     {
-        CompositeCommand ConnectCommand { get; }
+        CompositeCommand SaveCommand { get; }
     }
 
     public class ApplicationCommands : IApplicationCommands
     {
-        public CompositeCommand ConnectCommand { get; } = new CompositeCommand();
+        public CompositeCommand SaveCommand { get; } = new CompositeCommand();
     }
 }

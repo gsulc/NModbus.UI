@@ -16,23 +16,32 @@ namespace NModbus.UI.ViewModels
     {
         IRegionManager _regionManager;
         ModbusType _modbusType;
+        IApplicationCommands _applicationCommands;
         IEventAggregator _eventAggregator;
 
         public ConnectionViewModel(
             RegionManager regionManager, 
             IUnityContainer container, 
+            IApplicationCommands applicationCommands,
             IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
+            _applicationCommands = applicationCommands;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<NewModbusMasterEvent>().Subscribe(OnConnectionConfirmed);
-            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(OnDisconnected);
-            _eventAggregator.GetEvent<CloseEvent>().Subscribe(OnClose);
+
             RegisterNavigationTypes(container);
+
+            SaveCommand = new DelegateCommand(SaveSettings);
             ViewLoadedCommand = new DelegateCommand(OnViewLoaded);
             ConnectionCommand = new DelegateCommand(ConnectionStateChange);
+
+            _applicationCommands.SaveCommand.RegisterCommand(SaveCommand);
+
+            _eventAggregator.GetEvent<NewModbusMasterEvent>().Subscribe(OnConnectionConfirmed);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(OnDisconnected);
         }
 
+        public DelegateCommand SaveCommand { get; private set; }
         public DelegateCommand ViewLoadedCommand { get; private set; }
         public DelegateCommand ConnectionCommand { get; private set; }
 
@@ -126,7 +135,7 @@ namespace NModbus.UI.ViewModels
             IsEnabled = true;
         }
 
-        private void OnClose()
+        private void SaveSettings()
         {
             Settings.Default.ModbusType = SelectedModbusType;
             Settings.Default.Save();

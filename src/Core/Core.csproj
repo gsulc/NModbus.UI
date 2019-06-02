@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
-    <Compile Include="CloseEvent.cs" />
     <Compile Include="ConnectionRequestEvent.cs" />
     <Compile Include="ConnectionSettings.cs" />
     <Compile Include="ExceptionEvent.cs" />

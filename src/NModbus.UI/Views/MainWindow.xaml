@@ -11,7 +11,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding WindowClosingCommand}" />
+            <i:InvokeCommandAction Command="{Binding AppCommands.SaveCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
