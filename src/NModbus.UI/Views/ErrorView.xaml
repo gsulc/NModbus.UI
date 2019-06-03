@@ -8,7 +8,27 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <DockPanel Visibility="{Binding Visibility}">
-        <Button DockPanel.Dock="Left" Width="20" Command="{Binding CloseCommand}">X</Button>
+        <Button DockPanel.Dock="Left" Width="35" Command="{Binding CloseCommand}" Content="X" FontSize="10" FontFamily="Lucida Console">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#E81123" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <Separator  Margin="5" />
         <TextBlock Text="{Binding LatestErrorMessage}" DockPanel.Dock="Left" VerticalAlignment="Center" />
     </DockPanel>
