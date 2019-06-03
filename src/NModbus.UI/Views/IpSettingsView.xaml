@@ -18,7 +18,7 @@
             <ColumnDefinition Width="160" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">Host Name (IP)</Label>
+        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">IP Address</Label>
         <TextBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding Hostname}" />
         <Label Grid.Row="1" HorizontalAlignment="Right">Port</Label>
         <TextBox Grid.Row="1" Grid.Column="1"  VerticalContentAlignment="Center" Text="{Binding Port}" />
