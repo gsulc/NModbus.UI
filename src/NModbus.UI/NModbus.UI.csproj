@@ -83,7 +83,9 @@
     </ApplicationDefinition>
     <Compile Include="Enums.cs" />
     <Compile Include="Models\LineItem.cs" />
+    <Compile Include="Models\NumericDisplayType.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ShortConverter.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\IpSettingsViewModel.cs" />

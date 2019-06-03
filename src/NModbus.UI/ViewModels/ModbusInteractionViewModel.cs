@@ -90,7 +90,7 @@ namespace NModbus.UI.ViewModels
         private void OnReadResponse(ModbusReadResponse response)
         {
             var item = LineItems.First(i => i.Address == response.StartAddress);
-            item.ValueAsString = response.Data[0].ToString();
+            item.Value = response.Data[0];
         }
 
         private void RemoveSelectedItems(IList items)
