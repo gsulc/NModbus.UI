@@ -11,6 +11,7 @@
         <Button DockPanel.Dock="Left" Width="35" Command="{Binding CloseCommand}" Content="X" FontSize="10" FontFamily="Lucida Console">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
